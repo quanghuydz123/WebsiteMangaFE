@@ -1,0 +1,56 @@
+.left_admin{
+    width: 16%;
+    height: 100%;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    background: url('https://www.transparenttextures.com/patterns/brushed-alum-dark.png');
+    box-shadow: 0 0 10px #c9c1c1;
+}
+.left_admin_container{  
+    height:100%;
+    padding: 10px 10px 0 10px;
+}
+.left_admin_container ul{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.left_admin_container li{
+    cursor: pointer;
+}
+.left_admin_container_option{
+    width:100%;
+    height: 55px;
+    border-radius: 5px;
+    margin-bottom:5px;
+    display:flex;
+    align-items: center;
+    justify-content: left;
+    border:none;
+    transition: 0.3s;
+    cursor: pointer;
+}
+.left_admin_container_option:hover{
+    background-color: rgba(61, 55, 55, 0.207);
+    box-shadow: 0 0 5px #c9c1c1;
+}
+.left_admin_container_option_icon{
+    width: 40px;
+    height: 40px;
+    margin: 0 5px 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* background-color: #b4a7a7; */
+}
+.left_admin_container_option span{
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    font-family: math;
+}
+.active_block{
+    background-color: rgba(61, 55, 55, 0.207);
+    box-shadow: 0 0 5px #c9c1c1;
+}

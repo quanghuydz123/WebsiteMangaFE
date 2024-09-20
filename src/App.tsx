@@ -1,28 +1,19 @@
 import React from 'react';
 import './App.css';
-import userAPI from './apis/userApi';
-import { HomeAdminPage, HomeUserPage } from './pages';
-import { Route, Routes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import HomeAdminPage from './pages/admin/Home/HomeAdminPage';
+import HomeUserPage from './pages/user/HomeUserPage';
 
 function App() {
-  // const handleCallApi = async ()=>{
-  //   const api = '/get-all'
-  //   try {
-  //     const res = await userAPI.HandleUser(api)
-  //     console.log("res",res)
-  //   } catch (error:any) {
-  //     const errorMessage = JSON.parse(error.message)
-  //     console.log("HomeScreen", errorMessage)
-  //   }
-  // }
-
   return (
-    <div>
+    <BrowserRouter>
       <Routes>
-          <Route path='/' element={<HomeUserPage />}/>
-          <Route path='/admin' element={<HomeAdminPage />}/>
-        </Routes>
-    </div>
+        <Route path='/' element={<HomeUserPage />} />
+        <Route path='/admin' element={<HomeAdminPage />} />
+        {/* Add a 404 page */}
+        <Route path='*' element={<h1>404 - Page Not Found</h1>} />
+      </Routes>
+    </BrowserRouter>
   );
 }
 

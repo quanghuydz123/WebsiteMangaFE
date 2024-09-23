@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { addAuth } from "../../reduxs/reducers/authReducers";
+import Header from "../../components/User/Header/Header";
 
 const HomeUserPage = () => {
     const dispatch = useDispatch()
@@ -16,11 +17,8 @@ const HomeUserPage = () => {
     },[])
 
     return (
-        <div>
-            HomeUserPage
-            <div>
-                <Link to={'/admin'}>Sang trang admin</Link>
-            </div>
+        <div className="bg-zinc-900">
+            <Header />
         </div>
     );
 }

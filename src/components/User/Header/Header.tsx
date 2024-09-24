@@ -20,6 +20,8 @@ export default function Header() {
                 <button 
                 type="button" 
                 className="
+                    border-2
+                    border-white
                     bg-gray-800
                     hover:bg-gray-900 
                     focus:outline-none 

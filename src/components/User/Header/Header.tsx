@@ -4,7 +4,7 @@ import Logo from "../../../assets/images/logo.png"
 
 export default function Header() {
     return (
-        <div className="container flex justify-between items-center mx-auto p-2 ">
+        <div className="container flex justify-between items-center mx-auto pt-6 ">
             {/* Logo */}
             <div>
                 <img className="w-40 rounded-lg" src={Logo} />
@@ -21,7 +21,7 @@ export default function Header() {
                 type="button" 
                 className="
                     border-2
-                    border-white
+                    border-slate-500
                     bg-gray-800
                     hover:bg-gray-900 
                     focus:outline-none 

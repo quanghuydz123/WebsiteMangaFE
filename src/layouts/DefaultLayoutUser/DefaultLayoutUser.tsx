@@ -11,7 +11,7 @@ const DefaultLayoutUser = ({ children }: DefaultLayoutUserProps) => {
   return (
     <div className='bg-zinc-900'>
       <Header />
-      <div className="container mx-auto h-screen my-10">
+      <div className="container mx-auto h-full my-10">
         <BreadCrumb />
         {children}
       </div>

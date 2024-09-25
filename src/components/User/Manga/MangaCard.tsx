@@ -4,7 +4,7 @@ export default function MangaCard() {
     return (
         <div>
             <div className="max-w-sm rounded-md hover:scale-[95%] ease-linear duration-200">
-                <div className="w-full h-56 rounded-t-sm">
+                <div className="w-full lg:max-h-56 md:max-h-56 rounded-t-sm">
                     <a href="#">
                         <img 
                             className="object-cover" 

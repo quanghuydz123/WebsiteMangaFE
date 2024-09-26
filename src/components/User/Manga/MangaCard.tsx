@@ -15,11 +15,11 @@ export default function MangaCard() {
                 <div className="py-2">
                     <MangaTag />
                     <a href="#">
-                        <h5 className="text-md font-normal tracking-tight text-gray-900 dark:text-white">
+                        <h5 className="text-md font-normal tracking-tight text-white">
                             Assassin classroom 2
                         </h5>
                     </a>
-                    <p className="text-sm font-normal text-gray-700 dark:text-gray-400">
+                    <p className="text-sm font-normal text-gray-400">
                         Tác giả Matsui Yusei
                     </p>
                 </div>

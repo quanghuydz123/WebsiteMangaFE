@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 
 export default function NavigationBar() {
     return (
-        <div className="flex items-center gap-12">
+        <div className="hidden lg:flex items-center gap-12">
             <a className="font-medium" href="home">Trang chủ</a>
             <a className="font-medium" href="news">Truyện mới</a>
             <a className="font-medium" href="ranking">Xếp hạng</a>

@@ -4,7 +4,7 @@ import Logo from "../../../assets/images/logo.png"
 
 export default function Header() {
     return (
-        <div className="container flex justify-between items-center mx-auto pt-6 ">
+        <div className="container flex justify-between items-center mx-2 md:mx-auto pt-6 ">
             {/* Logo */}
             <div>
                 <img className="w-40 rounded-lg" src={Logo} />
@@ -20,6 +20,7 @@ export default function Header() {
                 <button 
                 type="button" 
                 className="
+                    hidden lg:block
                     border-2
                     border-slate-500
                     bg-gray-800

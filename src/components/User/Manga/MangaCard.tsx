@@ -3,11 +3,11 @@ import MangaTag from "./MangaTag";
 export default function MangaCard() {
     return (
         <div>
-            <div className="max-w-sm rounded-md hover:scale-[95%] ease-linear duration-200">
+            <div className="max-w-sm rounded-md hover:scale-[95%] ease-linear duration-200 text-center md:text-left mx-auto">
                 <div className="w-full lg:max-h-56 md:max-h-56 rounded-t-sm">
                     <a href="#">
                         <img 
-                            className="object-cover" 
+                            className="object-cover mx-auto" 
                             src="https://upload.wikimedia.org/wikipedia/en/7/79/Assassination_Classroom_DVD_1_Cover.jpg" alt="" 
                         />
                     </a>

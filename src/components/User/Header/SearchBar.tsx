@@ -1,6 +1,6 @@
 export default function SearchBar() {
     return (
-        <div className="flex items-center">
+        <div className="hidden lg:flex items-center">
             <div className="flex px-4 py-3 rounded-md border-2 border-slate-500 overflow-hidden max-w-md mx-auto font-[sans-serif]">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192.904 192.904" width="20px"
                 className="fill-white mr-3 rotate-90">

@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import HomeAdminPage from './pages/admin/Home/HomeAdminPage';
-import HomeUserPage from './pages/user/HomeUserPage';
+import HomeUserPage from './pages/user/UserHomePage';
 
 function App() {
   return (

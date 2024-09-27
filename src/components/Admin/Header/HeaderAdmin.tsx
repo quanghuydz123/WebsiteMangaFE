@@ -25,41 +25,34 @@ function HeaderAdmin() {
   };
 
   return (
-    <nav className="header_admin">
-      <div className="header_admin_container">
-        <ul>
-          <li>
-            <div className="header_admin_logo" onClick={handleBack}>
-              <img src={logo} alt="Logo" />
-              <div className="header_admin_title_admin">
-                <span>Admin</span>
-              </div>
-            </div>
-          </li>
+    <nav className="w-full fixed top-0 left-0 bg-[#283257] z-[1000] p-4 flex justify-between items-center">
+  <div className="flex items-center cursor-pointer" onClick={handleBack}>
+    <img src={logo} alt="Logo" className="w-32 h-14" />
+    <div className="ml-4">
+      <span className="text-lg font-bold text-white italic">Admin</span>
+    </div>
+  </div>
 
-          <li>
-            <div className="header_admin_action">
-              <div className="header_admin_nav">
-                {/* Safely render user details only if user exists */}
-                {user ? (
-                  <>
-                    <img src={user.avatar} alt="user" />
-                    <span>{user.displayName}</span>
-                  </>
-                ) : (
-                  <span>No User</span>
-                )}
-              </div>
-              <div className="header_admin_exit">
-                <button onClick={handleOut}>
-                  <i className="fas fa-sign-out-alt"></i>
-                </button>
-              </div>
-            </div>
-          </li>
-        </ul>
-      </div>
-    </nav>
+  <div className="flex items-center">
+    <div className="flex items-center mr-6">
+      {user ? (
+        <>
+          <img src={user.avatar} alt="user" className="w-10 h-10 rounded-full mr-2" />
+          <span className="text-lg font-bold text-white">{user.displayName}</span>
+        </>
+      ) : (
+        <span className="text-lg text-white">No User</span>
+      )}
+    </div>
+    <button
+      className="bg-red-600 text-white font-bold py-2 px-4 rounded hover:bg-red-700 transition duration-200"
+      onClick={handleOut}
+    >
+      Logout
+    </button>
+  </div>
+</nav>
+
   );
 }
 

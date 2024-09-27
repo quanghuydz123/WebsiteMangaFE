@@ -1,6 +1,7 @@
 import LeftAdmin from "../../../components/Admin/Left/LeftAdmin";
 import { useState } from 'react';
 import DefaultLayoutAdmin from "../../../layouts/DefaultLayoutAdmin/DefaultLayoutAdmin";
+import Manga from "../Manga/Manga";
 
 
 interface FormProps {
@@ -12,19 +13,19 @@ const Form = ({ selectItem }: FormProps) => {
 
     switch (selectItem) {
         case "Quản lý khách hàng":
-            // form = <ManageUser />;
+            // form = <User />;
             break;
         case "Quản lý truyện":
-            // form = <ManageBook />;
+            form = <Manga />;
             break;
         case "Quản lý thể loại":
-            // form = <ManageGenre />;
+            // form = <Genre />;
             break;
         case "Theo dõi doanh thu":
             // form = <DashBoard />;
             break;
         default:
-            // form = <ManageBook />;
+             form = <Manga />;
             break;
     }
 
@@ -40,8 +41,9 @@ const AdminHome = () => {
     
     return (
         <DefaultLayoutAdmin>
-            <LeftAdmin onSelect={setSelectedItem} />
-            <Form selectItem={selectedItem} />
+            a
+            {/* <LeftAdmin onSelect={setSelectedItem} />
+            <Form selectItem={selectedItem} /> */}
         </DefaultLayoutAdmin>
     );
 }

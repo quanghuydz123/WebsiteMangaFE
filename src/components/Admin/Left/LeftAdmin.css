@@ -4,7 +4,8 @@
     position: fixed;
     top: 60px;
     left: 0;
-    background: url('https://www.transparenttextures.com/patterns/brushed-alum-dark.png');
+    /* background: url('https://www.transparenttextures.com/patterns/brushed-alum-dark.png'); */
+    background: linear-gradient(180deg, #141a31 9.19%, #1b4e76 35.48%, #141a31 60.11%); 
     box-shadow: 0 0 10px #c9c1c1;
 }
 .left_admin_container{  
@@ -47,7 +48,7 @@
 .left_admin_container_option span{
     font-size: 18px;
     font-weight: bold;
-    color: #333;
+    color: #ffffff;
     font-family: math;
 }
 .active_block{

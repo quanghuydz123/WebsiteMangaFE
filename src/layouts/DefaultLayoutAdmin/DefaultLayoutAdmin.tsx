@@ -10,7 +10,7 @@ const DefaultLayoutAdmin = ({ children }: DefaultLayoutAdminProps) => {
   return (
     <div>
       <HeaderAdmin />
-      <div className="container-admin">
+      <div className="container-admin" >
         {children}
       </div>
     </div>

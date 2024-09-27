@@ -3,7 +3,7 @@
     position: fixed;
     top: 0;
     left: 0;
-    background-color: #CEC2C2;
+    background-color: #283257;
     z-index: 1000;
 }
 
@@ -28,7 +28,7 @@
 }
 .header_admin_title_admin{
     position: relative;
-    left:165px;
+    left:150px;
     top:-18px;
 }
 .header_admin_title_admin span{
@@ -61,12 +61,12 @@
 .header_admin_nav span{
     font-size: 16px;
     font-weight: bold;
-    color: #333;
+    color: #dcd5d5;
     margin-right:10px;
 }
 
 .header_admin_exit button{
-    background-color: #868080;
+    background-color: #c81e1e;
     color: #fff;
     padding: 15px;
     border: none;

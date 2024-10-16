@@ -1,6 +1,7 @@
+import { Author, Manga } from "../../../constrants/type";
 import MangaTag from "./MangaTag";
 
-export default function MangaCard() {
+export default function MangaCard({item}: {item: Manga}) {
     return (
         <div>
             <div className="max-w-sm rounded-md hover:scale-[95%] ease-linear duration-200 text-center md:text-left mx-auto">
@@ -8,20 +9,22 @@ export default function MangaCard() {
                     <a href="#">
                         <img 
                             className="object-cover mx-auto" 
-                            src="https://upload.wikimedia.org/wikipedia/en/7/79/Assassination_Classroom_DVD_1_Cover.jpg" alt="" 
+                            src={item.imageUrl} alt="" 
                         />
                     </a>
                 </div>
                 <div className="py-2">
-                    <MangaTag />
+                    <MangaTag status={item.status}/>
                     <a href="#">
                         <h5 className="text-md font-normal tracking-tight text-white">
-                            Assassin classroom 2
+                            {item.name}
                         </h5>
                     </a>
-                    <p className="text-sm font-normal text-gray-400">
-                        Tác giả Matsui Yusei
-                    </p>
+                    {item.author.map((item:Author, index) => (
+                        <p className="text-sm font-normal text-gray-400">
+                            {item.name}
+                        </p>
+                    ))}
                 </div>
             </div>
         </div>

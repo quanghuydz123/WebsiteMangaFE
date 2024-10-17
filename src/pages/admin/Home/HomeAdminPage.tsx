@@ -1,7 +1,9 @@
-import LeftAdmin from "../../../components/Admin/Left/LeftAdmin";
+
 import { useState } from 'react';
-import DefaultLayoutAdmin from "../../../layouts/DefaultLayoutAdmin/DefaultLayoutAdmin";
 import Manga from "../Manga/Manga";
+
+import MainContent from '../../../components/Admin/Main/Main';
+import Sidebar from '../../../components/Admin/Sidebar/Sidebar';
 
 
 interface FormProps {
@@ -37,14 +39,25 @@ const Form = ({ selectItem }: FormProps) => {
 };
 
 const AdminHome = () => {
-    const [selectedItem, setSelectedItem] = useState<string | null>(null);  
-    
+    const [darkMode, setDarkMode]= useState(true);
+    const [isOpen, setIsOpen] = useState(true);
+
+    const toggleDarkMode = ()=>{
+        setDarkMode(!darkMode);
+    }
+    const toggleSidebar = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <DefaultLayoutAdmin>
-            a
-            {/* <LeftAdmin onSelect={setSelectedItem} />
-            <Form selectItem={selectedItem} /> */}
-        </DefaultLayoutAdmin>
+        <div className={`flex font-Montserrat bg-slate-700 ${darkMode && "dark"}`}>
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} setIsOpen={setIsOpen} />
+        <MainContent 
+            isOpen={isOpen} 
+            darkMode={darkMode}
+            toggleDarkMode={toggleDarkMode} 
+            />
+        </div>
     );
 }
 

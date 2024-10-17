@@ -3,6 +3,7 @@ import { LuLayoutDashboard } from "react-icons/lu";
 import MenuItem from "./MenuItem";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { FaUser, FaBook, FaClipboardList, FaTachometerAlt, FaChartLine, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { Navigate, useNavigate } from 'react-router-dom';
 const menuItems = [
   {
     icon: FaUser, 
@@ -33,6 +34,7 @@ const menuItems = [
 
 
 const Sidebar = ({ isOpen, toggleSidebar, setIsOpen }: {isOpen:any, toggleSidebar:any, setIsOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {
+  const navigate= useNavigate()
   useEffect(() => {
   const handleResize = () => {
     if (window.innerWidth<800){
@@ -65,6 +67,7 @@ const Sidebar = ({ isOpen, toggleSidebar, setIsOpen }: {isOpen:any, toggleSideba
             name={item.name}
             isOpen={isOpen}
             isLogout={item.isLogout}
+            onClicked= {()=>{navigate("/admin/"+item.name)}}
           />
         ))
         }

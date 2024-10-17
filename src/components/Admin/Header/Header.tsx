@@ -1,7 +1,7 @@
 import React from 'react';
 import { FaSun, FaMoon, FaUser } from 'react-icons/fa';
 
-const Header = ({ toggleDarkMode, darkMode }: { toggleDarkMode: any; darkMode: any }) => {
+const Header = ({ toggleDarkMode, darkMode }: { toggleDarkMode: () => void; darkMode: boolean }) => {
   return (
     <div className="flex items-center justify-between
      bg-white px-7 py-3 dark:bg-slate-700 dark:text-gray-300">

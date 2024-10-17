@@ -7,7 +7,9 @@ export default function Header() {
         <div className="container flex gap-6 justify-between items-center mx-4 md:mx-auto pt-6 ">
             {/* Logo */}
             <div>
-                <img className="w-40 rounded-lg" src={Logo} />
+                <a href="home">
+                    <img className="w-40 rounded-lg" src={Logo} />
+                </a>
             </div>
             <div className="grow flex justify-end">
             {/* Navigation Bar */}

@@ -1,13 +1,21 @@
-import React from 'react';
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
-import HomeAdminPage from './pages/admin/Home/HomeAdminPage';
-import HomeUserPage from './pages/user/UserHomePage';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { 
+  HomeAdminPage,
+  HomeUserPage,
+  MangaDetailPage,
+  MangaListPage,
+  MangaRankingPage
+} from './pages/index';
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<HomeUserPage />} />
+      <Route path='/' element={<Navigate to="/home" />} />
+      <Route path='/home' element={<HomeUserPage />} />
+      <Route path='/manga' element={<MangaListPage />} />
+      <Route path='/manga/:mangaId' element={<MangaDetailPage />} />
+      <Route path='/ranking' element={<MangaRankingPage />} />
       <Route path='/admin' element={<HomeAdminPage />} />
       {/* Thêm một trang 404 */}
       <Route path='*' element={<h1>404 - Page Not Found</h1>} />

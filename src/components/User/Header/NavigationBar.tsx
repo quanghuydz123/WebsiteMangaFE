@@ -6,10 +6,10 @@ export default function NavigationBar() {
     return (
         <>
             <div className="hidden lg:flex items-center gap-12">
-                <a className="font-medium" href="home">Trang chủ</a>
-                <a className="font-medium" href="news">Truyện mới</a>
-                <a className="font-medium" href="ranking">Xếp hạng</a>
-                <a className="font-medium" href="#" id="genre-dropdown-button" data-dropdown-toggle="genre-dropdown">
+                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="home">Trang chủ</a>
+                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="manga">Truyện mới</a>
+                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="ranking">Xếp hạng</a>
+                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="#" id="genre-dropdown-button" data-dropdown-toggle="genre-dropdown">
                     Thể loại <FontAwesomeIcon icon={faCaretDown} />
                 </a>
                 <div className="flex items-stretch gap-4">

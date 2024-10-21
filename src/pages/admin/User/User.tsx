@@ -2,7 +2,6 @@ import React, { useState, ChangeEvent } from 'react';
 import Pagination from '../../../components/Admin/Pagination/Pagination';
 import { motion } from 'framer-motion';
 
-
 interface User {
   id: number;
   name: string;
@@ -12,11 +11,9 @@ interface User {
 }
 
 const UserTable: React.FC = () => {
-
   const [currentPage, setCurrentPage] = useState(1);
   const totalPages = 10; 
 
-  
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     console.log('Changed to page:', page);
@@ -31,7 +28,6 @@ const UserTable: React.FC = () => {
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
-
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({
@@ -39,7 +35,6 @@ const UserTable: React.FC = () => {
       [name]: name === 'age' ? Number(value) : value
     }));
   };
-
 
   const addUser = () => {
     if (newUser.name && newUser.email && newUser.age !== undefined) {
@@ -50,14 +45,12 @@ const UserTable: React.FC = () => {
     }
   };
 
-
   const editUser = (user: User) => {
     setIsEditing(true);
     setCurrentUser(user);
     setNewUser({ name: user.name, email: user.email, age: user.age });
   };
 
- 
   const updateUser = () => {
     if (currentUser && newUser.name && newUser.email && newUser.age !== undefined) {
       setUsers(
@@ -72,7 +65,6 @@ const UserTable: React.FC = () => {
   const softDeleteUser = (id: number) => {
     setUsers(users.map((user) => (user.id === id ? { ...user, isDeleted: true } : user)));
   };
-
 
   const restoreUser = (id: number) => {
     setUsers(users.map((user) => (user.id === id ? { ...user, isDeleted: false } : user)));
@@ -128,54 +120,56 @@ const UserTable: React.FC = () => {
       <motion.div
         className="flex-1 rounded-xl bg-white p-5 dark:bg-slate-600 dark:text-slate-300"
       >
-        <table className="min-w-full">
-          <thead>
-            <tr className="text-sm md:text-base">
-              <th className="px-4 py-2 text-left font-semibold text-slate-400">ID</th>
-              <th className="px-4 py-2 text-left font-semibold text-slate-400">Name</th>
-              <th className="px-4 py-2 text-left font-semibold text-slate-400">Email</th>
-              <th className="px-4 py-2 text-left font-semibold text-slate-400">Age</th>
-              <th className="px-4 py-2 text-left font-semibold text-slate-400">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users.map((user) => (
-              <tr className="border-b border-slate-200 text-sm md:text-base" key={user.id}>
-                <td className="px-4 py-3 font-medium">{user.id}</td>
-                <td className={`px-4 py-3 font-medium ${user.isDeleted ? 'line-through text-gray-400' : ''}`}>
-                  {user.name}
-                </td>
-                <td className="px-4 py-3 font-medium">{user.email}</td>
-                <td className="px-4 py-3 font-medium">{user.age}</td>
-                <td className="px-4 py-3 font-medium space-x-2">
-                  {!user.isDeleted ? (
-                    <>
-                      <button
-                        onClick={() => editUser(user)}
-                        className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => softDeleteUser(user.id)}
-                        className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
-                    </>
-                  ) : (
-                    <button
-                      onClick={() => restoreUser(user.id)}
-                      className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                    >
-                      Restore
-                    </button>
-                  )}
-                </td>
+        <div className="overflow-hidden">
+          <table className="min-w-full table-fixed"> 
+            <thead>
+              <tr className="text-sm md:text-base">
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">ID</th>
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-2/12">Name</th>
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Email</th>
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">Age</th>
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Actions</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {users.map((user) => (
+                <tr className="border-b border-slate-200 text-sm md:text-base" key={user.id}>
+                  <td className="px-4 py-3 font-medium">{user.id}</td>
+                  <td className={`px-4 py-3 font-medium ${user.isDeleted ? 'line-through text-gray-400' : ''}`}>
+                    {user.name}
+                  </td>
+                  <td className="px-4 py-3 font-medium truncate">{user.email}</td>
+                  <td className="px-4 py-3 font-medium">{user.age}</td>
+                  <td className="px-4 py-3 font-medium flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:space-x-2">
+                    {!user.isDeleted ? (
+                      <>
+                        <button
+                          onClick={() => editUser(user)}
+                          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 w-full sm:w-auto"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => softDeleteUser(user.id)}
+                          className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto"
+                        >
+                          Delete
+                        </button>
+                      </>
+                    ) : (
+                      <button
+                        onClick={() => restoreUser(user.id)}
+                        className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto"
+                      >
+                        Restore
+                      </button>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </motion.div>
 
       <Pagination

@@ -19,12 +19,13 @@ const AdminHome = () => {
     };
 
     return (
-        <div className={`flex font-Montserrat bg-slate-700 text-gray-700 ${darkMode && "dark"}`}>
+        <div className={`flex font-Montserrat bg-slate-700 ${darkMode ? "dark" : ""}`}>
         <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} setIsOpen={setIsOpen} />
         <MainContent 
             isOpen={isOpen} 
             darkMode={darkMode}
             toggleDarkMode={toggleDarkMode} 
+           
             />
 
         </div>

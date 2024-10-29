@@ -1,52 +1,34 @@
-import LeftAdmin from "../../../components/Admin/Left/LeftAdmin";
+
 import { useState } from 'react';
-import DefaultLayoutAdmin from "../../../layouts/DefaultLayoutAdmin/DefaultLayoutAdmin";
+import Manga from "../Manga/Manga";
+import MainContent from '../../../components/Admin/Main/Main';
+import Sidebar from '../../../components/Admin/Sidebar/Sidebar';
+import Pagination from '../../../components/Admin/Pagination/Pagination';
 
 
-interface FormProps {
-  selectItem: string | null;  
-}
-
-const breadCrumbItems = [
-    { label: 'Trang chủ', href: '/', icon: <i className="fa-solid fa-house"></i> },
-];
-
-const Form = ({ selectItem }: FormProps) => {
-    let form;
-
-    switch (selectItem) {
-        case "Quản lý khách hàng":
-            // form = <ManageUser />;
-            break;
-        case "Quản lý truyện":
-            // form = <ManageBook />;
-            break;
-        case "Quản lý thể loại":
-            // form = <ManageGenre />;
-            break;
-        case "Theo dõi doanh thu":
-            // form = <DashBoard />;
-            break;
-        default:
-            // form = <ManageBook />;
-            break;
-    }
-
-    return (
-        <>
-            {form}
-        </>
-    );
-};
 
 const AdminHome = () => {
-    const [selectedItem, setSelectedItem] = useState<string | null>(null);  
-    
+    const [darkMode, setDarkMode]= useState(true);
+    const [isOpen, setIsOpen] = useState(true);
+
+    const toggleDarkMode = ()=>{
+        setDarkMode(!darkMode);
+    }
+    const toggleSidebar = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
-        <DefaultLayoutAdmin>
-            <LeftAdmin onSelect={setSelectedItem} />
-            <Form selectItem={selectedItem} />
-        </DefaultLayoutAdmin>
+        <div className={`flex font-Montserrat bg-slate-700 ${darkMode ? "dark" : ""}`}>
+        <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} setIsOpen={setIsOpen} />
+        <MainContent 
+            isOpen={isOpen} 
+            darkMode={darkMode}
+            toggleDarkMode={toggleDarkMode} 
+           
+            />
+
+        </div>
     );
 }
 

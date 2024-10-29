@@ -1,4 +1,4 @@
-export default function MangaTag({status} : {status: number}) {
+export default function MangaTag({status} : {status: number | undefined}) {
     switch(status) {
         case 1: {
             return (

@@ -4,7 +4,6 @@ import {
   HomeAdminPage,
   MangaDetailPage,
   MangaListPage,
-  MangaRankingPage
 } from './pages/index';
 
 function App() {
@@ -12,8 +11,8 @@ function App() {
     <Routes>
       <Route path='/' element={<Navigate to="/home" />} />
       <Route path='/home' element={<MangaListPage />} />
+      <Route path='/genres/:genreId' element={<MangaListPage />} />
       <Route path='/manga/:id' element={<MangaDetailPage />} />
-      <Route path='/ranking' element={<MangaRankingPage />} />
       <Route path='/admin/*' element={<HomeAdminPage />} />
       {/* Thêm một trang 404 */}
       <Route path='*' element={<h1>404 - Page Not Found</h1>} />

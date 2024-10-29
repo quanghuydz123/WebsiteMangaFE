@@ -7,6 +7,8 @@ import { useParams } from "react-router-dom"
 import Loader from "../../components/User/Common/Loader"
 import BreadCrumb from "../../components/User/Common/BreadCrumb"
 import { formatISODate } from "../../utils/FormatDate"
+import { formatNumber } from "../../utils/FormatNumber"
+import MangaTag from "../../components/User/Manga/MangaTag"
 
 
 const MangaDetailPage = () => {
@@ -18,6 +20,31 @@ const MangaDetailPage = () => {
     const [chapters, setChapters] = useState<Chapter[]>()
     
     const [loading, setLoading] = useState(false)
+
+    const [rating, setRating] = useState(0);
+
+    const [ratingHover, setRatingHover] = useState(0);
+
+    const [isFollowing, setIsFollowing] = useState<boolean>(false);
+
+    const handleRatingClick = (value: number) => {
+        setRating(value);
+    };
+
+    const handleFollowClick = async() => {
+        try {
+            setLoading(true)
+            await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'create', {
+                user: id,
+                manga: id,
+            }, 'post')
+            setIsFollowing((prev) => !prev);
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoading(false)
+        }
+    };
     
     const breadCrumbItems = [
         { label: 'Trang chủ', href: '/', icon: <i className="fa-solid fa-house"></i> },
@@ -32,9 +59,10 @@ const MangaDetailPage = () => {
                 setManga(result.data)
                 result = await apiHandler.execute(ENDPOINTS.CHAPTER_ENDPOINT, `get-page?mangaId=${id}&limit=10&orderType=DESC`, null, 'get')
                 setChapters(result.data.chapters)
-                setLoading(false)
             } catch(err) {
                 console.log(err)
+            } finally {
+                setLoading(false)
             }
         }
 
@@ -59,33 +87,78 @@ const MangaDetailPage = () => {
                                     <h2 className="text-3xl font-bold mb-4">{manga?.name}</h2>
                                     <p className="font-bold">Mô tả:</p>
                                     <p className="font-thin mb-4">{manga?.summary}</p>
-                                    {/* <p className="font-bold mb-4">Thể loại:</p>
-                                    <div className="w-full">
-                                        {manga?.genres.map((genre) => (<span className="mx-2 p-2 border border-white rounded-md">{genre.name}</span>))}
-                                    </div> */}
+                                    {/* Manga Genres (Tags) */}
+                                    <p className="font-bold mb-4">Thể loại:</p>
+                                    <div className="flex mb-4 gap-3 flex-wrap w-full">
+                                        {manga?.genres.map((genre) => (
+                                            <span key={genre.name} className="mb-2 p-2 bg-blue-500 font-bold text-white rounded-md">
+                                                {genre.name}
+                                            </span>
+                                        ))}
+                                    </div>
+                                    {/* Details */}
                                     <div className="flex gap-10 mb-4">
                                         <div>
-                                            <p className="font-bold">Chapters</p>
-                                            <p className="font-thin">16</p>
+                                            <p className="font-bold mb-1">Chapters</p>
+                                            <p className="font-thin">{chapters?.length}</p>
                                         </div>
                                         <div>
-                                            <p className="font-bold">Lượt xem</p>
-                                            <p className="font-thin">1.8k</p>
+                                            <p className="font-bold mb-1">Lượt xem</p>
+                                            <p className="font-thin">{formatNumber(manga?.views)}</p>
                                         </div>
                                         <div>
-                                            <p className="font-bold">Lượt đánh giá</p>
-                                            <p className="font-thin">16</p>
+                                            <p className="font-bold mb-1">đánh giá trung bình</p>
+                                            <div className="flex items-center">
+                                                {Array.from({ length: 5 }, (_, index) => (
+                                                    <i
+                                                        key={index}
+                                                        className={`fa-solid fa-star ${index < (manga?.rating || 0) ? 'text-yellow-500' : 'text-gray-400'}`}
+                                                    ></i>
+                                                ))}
+                                            </div>
                                         </div>
                                         <div>
-                                            <p className="font-bold">Trạng thái</p>
-                                            <p className="font-thin">Đang phát hành</p>
+                                            <p className="font-bold mb-1">Trạng thái</p>
+                                            <MangaTag status={manga?.status} />
+                                            {/* <p className="font-thin">MangaTag{manga?.status}</p> */}
                                         </div>
                                     </div>
                                     <p className="font-bold mb-2">Tác giả: <span className="font-thin mx-2">{manga?.author.map((author) => (author.name))}</span></p>
                                     <p className="font-bold mb-2">Nhà xuất bản: <span className="font-thin mx-2">{manga?.publisher.name}</span></p>
-                                    <p className="font-bold mb-2">Ngày xuất bản: <span className="font-thin mx-2">{manga && formatISODate(manga?.publish_date.toString())}</span></p>
+                                    <p className="font-bold mb-4">Ngày xuất bản: <span className="font-thin mx-2">{manga && formatISODate(manga?.publish_date.toString())}</span></p>
+                                    {/* Rating & Following button */}
+                                    <button
+                                        onClick={handleFollowClick}
+                                        className={`px-4 py-2 rounded-md font-semibold ${
+                                            !isFollowing ? 'bg-blue-500 text-white' : 'bg-red-500 text-white'
+                                        }`}
+                                    >
+                                        {isFollowing ? "Hủy theo dõi" : "Theo dõi ngay"}
+                                    </button>
+                                    <div>
+                                        <p className="font-bold my-4 text-2xl text-blue-500">Đánh giá của bạn</p>
+                                        <div className="flex items-center">
+                                            {Array.from({ length: 5 }, (_, index) => {
+                                                const starValue = index + 1;
+                                                return (
+                                                    <i
+                                                        key={index}
+                                                        className={`fa-solid fa-star text-2xl ${
+                                                            starValue <= (ratingHover || rating) ? 'text-yellow-500' : 'text-gray-400'
+                                                        } cursor-pointer`}
+                                                        onClick={() => handleRatingClick(starValue)}
+                                                        onMouseEnter={() => setRatingHover(starValue)}
+                                                        onMouseLeave={() => setRatingHover(0)}
+                                                    ></i>
+                                                );
+                                            })}
+                                            <span className="ml-2 text-gray-300 font-thin">
+                                                {rating > 0 ? `${rating} / 5` : "Bạn chưa đánh giá truyện này"}
+                                            </span>
+                                        </div>
+                                    </div>
                                     {/* Chapter List in Table */}
-                                    <div className="mt-8">
+                                    <div className="mt-8 w-full">
                                         <h3 className="text-2xl font-bold mb-4 text-white">Danh sách tập</h3>
                                         {chapters?.length ? (
                                             <div className="overflow-x-auto">

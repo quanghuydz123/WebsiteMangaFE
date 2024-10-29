@@ -21,6 +21,14 @@ export interface Genre extends AbstractModel {
     slug: string;
 }
 
+export interface Chapter extends AbstractModel {
+    _id: string;
+    manga: string,
+    title: string,
+    isDeleted: boolean,
+    imageLinks: string[]
+}
+
 export interface Manga extends AbstractModel {
     _id: string;
     name: string;

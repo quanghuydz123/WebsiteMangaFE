@@ -7,6 +7,10 @@ interface FormProps {
   selectItem: string | null;  
 }
 
+const breadCrumbItems = [
+    { label: 'Trang chủ', href: '/', icon: <i className="fa-solid fa-house"></i> },
+];
+
 const Form = ({ selectItem }: FormProps) => {
     let form;
 

@@ -3,6 +3,7 @@ export const API_URL = {
 }
 
 export const ENDPOINTS = {
+    GOOGLE_AUTH_ENPOINT: "https://researchdevzone.azurewebsites.net/auth/google",
     USER_ENDPOINT: "users",
     AUTHOR_ENDPOINT: "authors",
     MANGA_ENPOINT: "manga",

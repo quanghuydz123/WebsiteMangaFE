@@ -9,6 +9,7 @@ import BreadCrumb from "../../components/User/Common/BreadCrumb"
 import { formatISODate } from "../../utils/FormatDate"
 import { formatNumber } from "../../utils/FormatNumber"
 import MangaTag from "../../components/User/Manga/MangaTag"
+import CommentSection from "../../components/User/Manga/CommentSession"
 
 
 const MangaDetailPage = () => {
@@ -81,9 +82,9 @@ const MangaDetailPage = () => {
                             <div className="flex gap-10 min-h-screen">
                                 {/* Managa Cover Image */}
                                 <div>
-                                    <img className="min-w-[300px]" src={manga?.imageUrl} alt="cover image" />
+                                    <img className="min-w-[300px] max-w-[400px]" src={manga?.imageUrl} alt="cover image" />
                                 </div>
-                                <div className="p-4">
+                                <div className="p-4 w-full">
                                     <h2 className="text-3xl font-bold mb-4">{manga?.name}</h2>
                                     <p className="font-bold">Mô tả:</p>
                                     <p className="font-thin mb-4">{manga?.summary}</p>
@@ -179,7 +180,7 @@ const MangaDetailPage = () => {
                                                                         {chapter.title}
                                                                     </a>
                                                                 </td>
-                                                                <td className="py-3 px-6 text-gray-300">{formatISODate(chapter?.createdAt.toString())}</td>
+                                                                <td className="py-3 px-6 text-gray-300">{formatISODate(chapter?.createdAt)}</td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
@@ -191,6 +192,7 @@ const MangaDetailPage = () => {
                                     </div>
                                 </div>
                             </div>
+                            <CommentSection mangaId={id} />
                         </>
                     )
                 }

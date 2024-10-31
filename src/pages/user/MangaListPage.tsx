@@ -35,7 +35,6 @@ const MangaListPage = () => {
                     null,
                     "get"
                 );
-                console.log(result)
                 setMangaList(result.data.docs);
                 setTotalPages(result.data.totalPages); // Assuming API returns total pages
             } catch (err) {

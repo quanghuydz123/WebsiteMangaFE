@@ -1,7 +1,7 @@
 interface AbstractModel {
-    isDeleted: boolean;
-    createdAt: Date;
-    updatedAt: Date;
+    isDeleted?: boolean;
+    createdAt?: Date;
+    updatedAt?: Date;
 }
 
 export interface Author extends AbstractModel {
@@ -43,4 +43,10 @@ export interface Manga extends AbstractModel {
     __v: number;
     followersCount: number;
     rating: number;
+}
+
+export interface Comment extends AbstractModel {
+    _idComment: string;
+    userName: string;
+    text: string;
 }

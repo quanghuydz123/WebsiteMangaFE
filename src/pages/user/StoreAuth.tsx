@@ -8,6 +8,7 @@ const StoreAuth = () => {
         // Get the query parameters from the URL
         const queryParams = new URLSearchParams(window.location.search);
         const userParam = queryParams.get("user");
+        const tokenParam = queryParams.get("token");
 
         if (userParam) {
             try {
@@ -15,12 +16,21 @@ const StoreAuth = () => {
                 const user = JSON.parse(decodeURIComponent(userParam));
                 
                 // Extract the necessary fields
-                const { email, thumbnail } = user;
+                const { _id, email, thumbnail } = user;
 
                 // Store in localStorage
+                localStorage.setItem("userId", _id);
                 localStorage.setItem("userEmail", email);
                 localStorage.setItem("userAvatar", thumbnail);
+            } catch (error) {
+                console.error("Failed to parse user data:", error);
+            }
+        }
 
+        if (tokenParam) {
+            try {
+                // Store in localStorage
+                localStorage.setItem("token", tokenParam);
             } catch (error) {
                 console.error("Failed to parse user data:", error);
             }

@@ -2,21 +2,23 @@ import './App.css';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { 
   HomeAdminPage,
-  HomeUserPage,
+  LoginPage,
   MangaDetailPage,
   MangaListPage,
-  MangaRankingPage
+  ProfilePage,
 } from './pages/index';
+import StoreAuth from './pages/user/StoreAuth';
 
 function App() {
   return (
     <Routes>
-      <Route path='/' element={<Navigate to="/home" />} />
-      <Route path='/home' element={<HomeUserPage />} />
-      <Route path='/manga' element={<MangaListPage />} />
-      <Route path='/manga/:mangaId' element={<MangaDetailPage />} />
-      <Route path='/ranking' element={<MangaRankingPage />} />
+      <Route path="/" element={<StoreAuth />} />
+      <Route path='/home' element={<MangaListPage />} />
+      <Route path='/profile' element={<ProfilePage />} />
+      <Route path='/genres/:genreId' element={<MangaListPage />} />
+      <Route path='/manga/:id' element={<MangaDetailPage />} />
       <Route path='/admin/*' element={<HomeAdminPage />} />
+      <Route path='/login' element={<LoginPage />} />
       {/* Thêm một trang 404 */}
       <Route path='*' element={<h1>404 - Page Not Found</h1>} />
     </Routes>

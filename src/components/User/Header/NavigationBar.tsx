@@ -1,85 +1,125 @@
-import { faCaretDown } from "@fortawesome/free-solid-svg-icons"
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import SearchBar from "./SearchBar"
+import { faCaretDown } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import SearchBar from "./SearchBar";
+import { useEffect, useState } from "react";
+import apiHandler from "../../../apis/apiHandler";
+import { Genre } from "../../../constrants/type";
+import { ENDPOINTS } from "../../../constrants/webInfo";
+import { useNavigate } from "react-router-dom";
 
 export default function NavigationBar() {
+    const [genres, setGenres] = useState<Genre[]>([]);
+    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+    const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+    const limit = 999; // Items per page
+    const nav = useNavigate();
+
+    // Fetch manga list based on current page
+    useEffect(() => {
+        const fetchGenreList = async () => {
+            try {
+                const result = await apiHandler.execute(
+                    ENDPOINTS.GENRE_ENDPOINT,
+                    `get-page?limit=${limit}`,
+                    null,
+                    "get"
+                );
+                setGenres(result.data.genres);
+            } catch (err) {
+                console.log(err);
+            }
+        };
+
+        fetchGenreList();
+    }, []);
+
+    // Get user information from localStorage
+    const userEmail = localStorage.getItem("userEmail");
+    const userAvatar = localStorage.getItem("userAvatar");
+
+    // Handle logout
+    const handleLogout = () => {
+        localStorage.removeItem("userEmail");
+        localStorage.removeItem("userAvatar");
+    };
+
     return (
-        <>
-            <div className="hidden lg:flex items-center gap-12">
-                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="home">Trang chủ</a>
-                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="manga">Truyện mới</a>
-                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="ranking">Xếp hạng</a>
-                <a className="font-medium hover:scale-[110%] hover:border-b-2" href="#" id="genre-dropdown-button" data-dropdown-toggle="genre-dropdown">
-                    Thể loại <FontAwesomeIcon icon={faCaretDown} />
-                </a>
-                <div className="flex items-stretch gap-4">
-                    <SearchBar />
+        <div className="hidden lg:flex items-center gap-12">
+            <a className="font-medium hover:scale-[110%] hover:border-b-2" href="/home">Trang chủ</a>
+            {/* Dropdown for genres */}
+            <a 
+                className="font-medium hover:scale-[110%] relative"
+                href="#"
+                onMouseEnter={() => setIsDropdownOpen(true)}
+                onMouseLeave={() => setIsDropdownOpen(false)}
+            >
+                Thể loại <FontAwesomeIcon icon={faCaretDown} />
+                {/* Dropdown Menu */}
+                {isDropdownOpen && (
+                    <div className="absolute z-10 top-6 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-64 max-h-80 overflow-y-scroll">
+                        <ul className="py-2 text-lg">
+                            {genres.map((genre) => (
+                                <li key={genre._id}>
+                                    <a 
+                                        href={`/genres/${genre._id}`} 
+                                        className="block px-4 py-3 text-white hover:bg-gray-100 hover:text-slate-800 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    >
+                                        {genre.name}
+                                    </a>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
+            </a>
+            <div className="flex items-stretch gap-4">
+                <SearchBar />
+                {userEmail && userAvatar ? (
+                    <div 
+                        className="relative flex items-center gap-2"
+                        onMouseEnter={() => setIsUserDropdownOpen(true)} // Open dropdown on hover
+                        onMouseLeave={() => setIsUserDropdownOpen(false)} // Close dropdown on mouse leave
+                    >
+                        <img 
+                            src={userAvatar} 
+                            alt="User Avatar" 
+                            className="w-10 h-10 rounded-full cursor-pointer"
+                        />
+                        <span className="text-white">{userEmail}</span>
+                        {/* User Dropdown Menu */}
+                        {isUserDropdownOpen && (
+                            <div className="absolute top-[36px] z-10 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-40 mt-2">
+                                <ul className="py-2 text-lg">
+                                    <li>
+                                        <a 
+                                            href="/profile" 
+                                            className="block px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
+                                        >
+                                            Profile
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <button 
+                                            className="block w-full text-left px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
+                                            onClick={handleLogout}
+                                        >
+                                            Đăng xuất
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        )}
+                    </div>
+                ) : (
                     <button 
                         type="button" 
-                        className="
-                                hidden lg:block
-                                border-2
-                                border-slate-500
-                                bg-gray-800
-                                hover:bg-gray-900 
-                                focus:outline-none 
-                                focus:ring-4 
-                                focus:ring-gray-300 
-                                font-medium 
-                                rounded-lg 
-                                px-2.5
-                                dark:bg-gray-800 
-                                dark:hover:bg-gray-700 
-                                dark:focus:ring-gray-700 
-                                dark:border-gray-700
-                            ">
-                            Đăng nhập
+                        className="hidden lg:block border-2 border-slate-500 bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg px-2.5 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+                        onClick={() => nav('/login')}
+                    >
+                        Đăng nhập
                     </button>
-                </div>
-                <div id="genre-dropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                    <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                    <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Settings</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Earnings</a>
-                    </li>
-                    <li>
-                        <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Sign out</a>
-                    </li>
-                    </ul>
-                </div>
+                )}
             </div>
-            <div className="flex lg:hidden flex-wrap items-center justify-center p-4">
-                <button data-collapse-toggle="navbar-default" type="button" className="inline-flex items-center p-1 mx-2 w-10 h-10 justify-center text-sm rounded-lg lg:hidden hover:bg-gray-100 hover:text-black focus:outline-none focus:ring-2 focus:ring-gray-200 text-white" aria-controls="navbar-default" aria-expanded="false">
-                    <span className="sr-only">Open main menu</span>
-                    <svg className="w-32 h-32" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15"/>
-                    </svg>
-                </button>
-                <div className="hidden w-full block sm:hidden sm:w-auto" id="navbar-default">
-                <ul className="font-medium flex flex-col p-4 sm:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
-                    <li>
-                    <a href="#" className="block py-2 px-3 text-white bg-blue-700 rounded md:bg-transparent md:text-blue-700 md:p-0 dark:text-white md:dark:text-blue-500" aria-current="page">Home</a>
-                    </li>
-                    <li>
-                    <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">About</a>
-                    </li>
-                    <li>
-                    <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Services</a>
-                    </li>
-                    <li>
-                    <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Pricing</a>
-                    </li>
-                    <li>
-                    <a href="#" className="block py-2 px-3 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent">Contact</a>
-                    </li>
-                </ul>
-                </div>
-            </div>
-        </>
-    )
+        </div>
+    );
 }

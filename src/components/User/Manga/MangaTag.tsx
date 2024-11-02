@@ -1,4 +1,4 @@
-export default function MangaTag({status} : {status: number}) {
+export default function MangaTag({status} : {status: number | undefined}) {
     switch(status) {
         case 1: {
             return (
@@ -6,7 +6,6 @@ export default function MangaTag({status} : {status: number}) {
                     Đang phát hành
                 </span>
             )
-            break;
         }
         case 2: {
             return (
@@ -14,7 +13,6 @@ export default function MangaTag({status} : {status: number}) {
                     Hoàn thành
                 </span>
             )
-            break;
         }
         case 3: {
             return (
@@ -22,7 +20,6 @@ export default function MangaTag({status} : {status: number}) {
                     Chưa phát hành
                 </span>
             )
-            break;
         }
         default:
             return <></>

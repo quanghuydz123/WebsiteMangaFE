@@ -1,12 +1,12 @@
 import HomeAdminPage from "./admin/Home/HomeAdminPage"
-import HomeUserPage from "./user/HomeUserPage"
 import MangaDetailPage from "./user/MangaDetailPage"
 import MangaListPage from "./user/MangaListPage"
-import MangaRankingPage from "./user/MangaRankingPage"
+import LoginPage from "./user/LoginPage"
+import ProfilePage from "./user/ProfilePage"
 export {
-    HomeUserPage,
     HomeAdminPage,
     MangaDetailPage,
     MangaListPage,
-    MangaRankingPage
+    LoginPage,
+    ProfilePage
 }

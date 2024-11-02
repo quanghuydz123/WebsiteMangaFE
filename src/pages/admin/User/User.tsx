@@ -1,73 +1,78 @@
-import React, { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent, useEffect } from 'react';
 import Pagination from '../../../components/Admin/Pagination/Pagination';
-import { motion } from 'framer-motion';
+import { motion } from 'framer-motion'; 
+import ApiService from '../../../apis/apiService';
+import { Base, User } from '../../../constrants/apiResponse';
 
-interface User {
-  id: number;
-  name: string;
-  email: string;
-  age: number;
-  isDeleted: boolean;
-}
 
+
+const userService = new ApiService<Base<User[]>>('users');
 const UserTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = 10; 
+  const totalPages = 10; // Adjust as needed based on the total number of users
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
     console.log('Changed to page:', page);
   };
 
-  const [users, setUsers] = useState<User[]>([
-    { id: 1, name: 'Liễu Như Yên', email: 'john@example.com', age: 25, isDeleted: false },
-    { id: 2, name: 'Ngô Diệc Phàm', email: 'jane@example.com', age: 30, isDeleted: false }
-  ]);
-
-  const [newUser, setNewUser] = useState<Partial<User>>({ name: '', email: '', age: undefined });
+  const [users, setUsers] = useState<User[]>([]);
+  const [newUser, setNewUser] = useState<Partial<User>>({ userName: '', email: '' });
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await userService.getAllUser('/get-all');
+        setUsers(response.data.data);
+      } catch (err) {
+        console.error('Failed to fetch users:', err);
+      }
+    };
+
+    fetchUsers();
+  }, []);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setNewUser((prev) => ({
       ...prev,
-      [name]: name === 'age' ? Number(value) : value
+      [name]: value
     }));
   };
 
   const addUser = () => {
-    if (newUser.name && newUser.email && newUser.age !== undefined) {
-      const id = users.length + 1;
-      const user: User = { id, ...newUser, isDeleted: false } as User;
+    if (newUser.userName && newUser.email) {
+      const user: User = { _id: (users.length + 1).toString(), userName: newUser.userName, email: newUser.email, isDeleted: false };
       setUsers([...users, user]);
-      setNewUser({ name: '', email: '', age: undefined });
+      setNewUser({ userName: '', email: '' });
     }
   };
 
   const editUser = (user: User) => {
     setIsEditing(true);
     setCurrentUser(user);
-    setNewUser({ name: user.name, email: user.email, age: user.age });
+    setNewUser({ userName: user.userName, email: user.email });
   };
 
   const updateUser = () => {
-    if (currentUser && newUser.name && newUser.email && newUser.age !== undefined) {
+    if (currentUser && newUser.userName && newUser.email) {
       setUsers(
-        users.map((user) => (user.id === currentUser.id ? { ...user, ...newUser } : user))
+        users.map((user) => (user._id === currentUser._id ? { ...user, ...newUser } : user))
       );
       setIsEditing(false);
-      setNewUser({ name: '', email: '', age: undefined });
+      setNewUser({ userName: '', email: '' });
       setCurrentUser(null);
     }
   };
 
-  const softDeleteUser = (id: number) => {
-    setUsers(users.map((user) => (user.id === id ? { ...user, isDeleted: true } : user)));
+  const softDeleteUser = (_id: string) => {
+    setUsers(users.map((user) => (user._id === _id ? { ...user, isDeleted: true } : user)));
   };
 
-  const restoreUser = (id: number) => {
-    setUsers(users.map((user) => (user.id === id ? { ...user, isDeleted: false } : user)));
+  const restoreUser = (_id: string) => {
+    setUsers(users.map((user) => (user._id === _id ? { ...user, isDeleted: false } : user)));
   };
 
   return (
@@ -79,8 +84,8 @@ const UserTable: React.FC = () => {
           <label className="block font-semibold">Name:</label>
           <input
             type="text"
-            name="name"
-            value={newUser.name || ''}
+            name="userName"
+            value={newUser.userName || ''}
             onChange={handleChange}
             className="border p-2 rounded w-full"
             placeholder="Enter your name"
@@ -97,17 +102,6 @@ const UserTable: React.FC = () => {
             placeholder="Enter your email"
           />
         </div>
-        <div>
-          <label className="block font-semibold">Age:</label>
-          <input
-            type="number"
-            name="age"
-            value={newUser.age?.toString() || ''}
-            onChange={handleChange}
-            className="border p-2 rounded w-full"
-            placeholder="Enter your age"
-          />
-        </div>
         <button
           type="button"
           onClick={isEditing ? updateUser : addUser}
@@ -117,9 +111,7 @@ const UserTable: React.FC = () => {
         </button>
       </form>
 
-      <motion.div
-        className="flex-1 rounded-xl bg-white p-5 dark:bg-slate-600 dark:text-slate-300"
-      >
+      <motion.div className="flex-1 rounded-xl bg-white p-5 dark:bg-slate-600 dark:text-slate-300">
         <div className="overflow-hidden">
           <table className="min-w-full table-fixed"> 
             <thead>
@@ -127,19 +119,17 @@ const UserTable: React.FC = () => {
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">ID</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-2/12">Name</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Email</th>
-                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">Age</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Actions</th>
               </tr>
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr className="border-b border-slate-200 text-sm md:text-base" key={user.id}>
-                  <td className="px-4 py-3 font-medium">{user.id}</td>
+                <tr className="border-b border-slate-200 text-sm md:text-base" key={user._id}>
+                  <td className="px-4 py-3 font-medium">{user._id}</td>
                   <td className={`px-4 py-3 font-medium ${user.isDeleted ? 'line-through text-gray-400' : ''}`}>
-                    {user.name}
+                    {user.userName}
                   </td>
                   <td className="px-4 py-3 font-medium truncate">{user.email}</td>
-                  <td className="px-4 py-3 font-medium">{user.age}</td>
                   <td className="px-4 py-3 font-medium flex flex-col space-y-2 sm:space-y-0 sm:flex-row sm:space-x-2">
                     {!user.isDeleted ? (
                       <>
@@ -150,7 +140,7 @@ const UserTable: React.FC = () => {
                           Edit
                         </button>
                         <button
-                          onClick={() => softDeleteUser(user.id)}
+                          onClick={() => softDeleteUser(user._id)}
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto"
                         >
                           Delete
@@ -158,7 +148,7 @@ const UserTable: React.FC = () => {
                       </>
                     ) : (
                       <button
-                        onClick={() => restoreUser(user.id)}
+                        onClick={() => restoreUser(user._id)}
                         className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 w-full sm:w-auto"
                       >
                         Restore

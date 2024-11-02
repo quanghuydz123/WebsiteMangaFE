@@ -22,7 +22,7 @@ const MainContent = ({ isOpen, toggleDarkMode, darkMode }: {isOpen: boolean, tog
                   <Route path='Analyst' element={<Analysis />} />
                   <Route path='User' element={<User />} />
                   <Route path='Manga' element={<Manga />} />
-                  <Route path='Chapter' element={<Chapter />} />
+                  <Route path='Manga/:mangaID/Chapter' element={<Chapter />} />
                   <Route path='Settings' element={<ImageManager />} />
               </Routes>
           </div>

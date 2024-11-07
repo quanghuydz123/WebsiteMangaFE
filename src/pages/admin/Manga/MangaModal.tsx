@@ -2,7 +2,6 @@ import React, { ChangeEvent, useState, useEffect } from 'react';
 import { DTOManga, GenrePair, SelectedManga } from '../../../constrants/apiResponse';
 import { motion } from 'framer-motion';
 import GenreApi from '../../../apis/GenreApi';
-import { log } from 'console';
 import MangaApi from '../../../apis/MangaApi';
 
 interface MangaModalProps {

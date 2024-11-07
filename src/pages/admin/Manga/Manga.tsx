@@ -41,7 +41,7 @@ const StoryboardTable: React.FC = () => {
           </button>
         </div>
       </div>
-      <MangaAdminTable rows={rows} openModal={openModal} setCurrentSelectedManga={setCurrentSelectedManga} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange} />
+      <MangaAdminTable rows={rows} openModal={openModal} setCurrentSelectedManga={setCurrentSelectedManga} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}  fetchManga={fetchManga}/>
     </motion.div>
   )
 }

@@ -4,7 +4,9 @@ import axios, { AxiosResponse } from 'axios';
 import { Base, DTOManga, MangaResponseData, SelectedManga, UpdateMangaData } from '../constrants/apiResponse';
 import { API_BASE_URL } from './apiService';
 
+
 const MANGA_API_URL = API_BASE_URL + "/manga"
+
 
 interface QueryParams {
     [key: string]: string | number | undefined;
@@ -38,8 +40,8 @@ async function createManga(data: DTOManga): Promise<AxiosResponse<Base<DTOManga>
 // Delete manga by ID
 async function deleteManga(idManga: string): Promise<AxiosResponse<Base<DTOManga>>> {
     const url = `${MANGA_API_URL}/delete-manga`;
-    return axios.delete<Base<DTOManga>>(url, {
-        data: { idManga },
+    return axios.put<Base<DTOManga>>(url, {
+        idManga,
     });
 }
 
@@ -75,6 +77,22 @@ async function addManga(manga: SelectedManga) {
     )
     return response;
 }
+const handleDeleteManga = async (idManga: string, setRow: React.Dispatch<React.SetStateAction<DTOManga[]>>) => {
+    try {
+        await deleteManga(idManga);
+
+        // Update the local state for soft deletion
+        setRow((prevRows) =>
+            prevRows.map((manga) =>
+                manga._id === idManga ? { ...manga, isDeleted: true } : manga
+            )
+        );
+    } catch (error) {
+        console.error('Error deleting manga:', error);
+    }
+};
+
+
 
 export default {
     getAllManga,
@@ -82,5 +100,6 @@ export default {
     createManga,
     deleteManga,
     updateManga,
+    handleDeleteManga ,
     addManga
 }

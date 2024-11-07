@@ -6,6 +6,7 @@ import User from '../../../pages/admin/User/User';
 import Manga from '../../../pages/admin/Manga/Manga';
 import Chapter from '../../../pages/admin/Chapter/Chapter';
 import ImageManager from '../../../pages/admin/Image/Image';
+import GenreTable from '../../../pages/Genre/Genre';
 
 
 
@@ -19,11 +20,12 @@ const MainContent = ({ isOpen, toggleDarkMode, darkMode }: {isOpen: boolean, tog
           <div className={`text-${darkMode ? 'white' : 'black'}`}>
           <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
               <Routes>
-                  <Route path='Analyst' element={<Analysis />} />
-                  <Route path='User' element={<User />} />
-                  <Route path='Manga' element={<Manga />} />
-                  <Route path='Manga/:mangaID/Chapter' element={<Chapter />} />
-                  <Route path='Settings' element={<ImageManager />} />
+                  <Route path='Thống kê' element={<Analysis />} />
+                  <Route path='Người dùng' element={<User />} />
+                  <Route path='Truyện tranh' element={<Manga />} />
+                  <Route path='Truyện tranh/:mangaID/Chương' element={<Chapter />} />
+                  <Route path='Chương/:chapterID/Ảnh' element={<ImageManager />} />
+                  <Route path='Thể loại' element={<GenreTable />} />
               </Routes>
           </div>
       </div>

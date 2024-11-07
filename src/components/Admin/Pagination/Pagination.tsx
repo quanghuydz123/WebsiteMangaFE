@@ -18,37 +18,35 @@ const Pagination: React.FC<PaginationProps> = ({ currentPage, totalPages, onPage
   };
 
   return (
-    <div className="flex justify-center items-center space-x-2 mt-4">
+    <div className="flex justify-center items-center space-x-3 mt-4">
       
       <button
         onClick={() => handleClick(currentPage - 1)}
         disabled={currentPage === 1}
-        className={`px-3 py-1 border rounded ${currentPage === 1 ? 'text-gray-500' : 'hover:bg-gray-300'}`}
+        className={`px-4 py-2 border rounded-full ${currentPage === 1 ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-gray-300 transition-all duration-200'}`}
       >
         Previous
       </button>
-
-     
+  
       {pageNumbers.map((page) => (
         <button
           key={page}
           onClick={() => handleClick(page)}
-          className={`px-3 py-1 border rounded ${page === currentPage ? 'bg-blue-500 text-white' : 'hover:bg-gray-300'}`}
+          className={`w-10 h-10 border rounded-full flex items-center justify-center ${page === currentPage ? 'bg-blue-800 text-white' : 'hover:bg-blue-700 transition-all duration-200'}`}
         >
           {page}
         </button>
       ))}
-
-      
+  
       <button
         onClick={() => handleClick(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className={`px-3 py-1 border rounded ${currentPage === totalPages ? 'text-gray-500' : 'hover:bg-gray-300'}`}
+        className={`px-4 py-2 border rounded-full ${currentPage === totalPages ? 'text-gray-400 cursor-not-allowed' : 'hover:bg-blue-700 transition-all duration-200'}`}
       >
         Next
       </button>
     </div>
   );
-};
+}  
 
 export default Pagination;

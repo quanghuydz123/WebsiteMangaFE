@@ -67,6 +67,27 @@ export interface MangaResponseData {
   docs: DTOManga[];
   totalPages: number;
 }
+
+export interface ChapterData {
+  page: number;
+  totalChapters: number;
+  totalPages: number;
+  chapters: Chapter[];
+}
+
+export interface Chapter {
+  _id: string;
+  title: string;
+  chapterNum: number;
+  updatedAt: Date;
+  isDeleted: boolean;
+}
+export interface ChapterImage {
+  chapterTitle: string;
+  mangaName: string;
+  arrayOfImage: string[][];
+}
+
 export interface Author {
   _id: string
   name: string
@@ -93,6 +114,19 @@ export interface Genre {
   updatedAt: string
 }
 
+export interface GetGenreResponse {
+  page: number,
+  totalGenres: number,
+  totalPages: number,
+  genres: GenrePair[]
+};
+export interface GenreResponse {
+  page: number,
+  totalGenres: number,
+  totalPages: number,
+  genres: Genre[]
+};
+
 export interface UpdateMangaData {
   _id: string;
   updatedData: {
@@ -103,12 +137,6 @@ export interface UpdateMangaData {
     genres?: string[];
   };
 }
-export interface GetGenreResponse {
-  page: number,
-  totalGenres: number,
-  totalPages: number,
-  genres: GenrePair[]
-};
 
 export interface GenrePair {
   _id: string,
@@ -140,4 +168,8 @@ export interface SelectedManga {
   views: number
   isDeleted: boolean
   status: number
+}
+export interface ImageData{
+  _id: string
+  imageLinks: string[]
 }

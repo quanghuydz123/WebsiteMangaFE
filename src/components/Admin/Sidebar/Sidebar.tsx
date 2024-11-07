@@ -2,28 +2,28 @@ import React, { useEffect, useState } from 'react'
 import { LuLayoutDashboard } from "react-icons/lu";
 import MenuItem from "./MenuItem";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
-import { FaUser, FaBook, FaClipboardList, FaTachometerAlt, FaChartLine, FaCog, FaSignOutAlt } from 'react-icons/fa';
+import { FaUser, FaBook, FaClipboardList, FaTachometerAlt, FaChartLine, FaCog, FaSignOutAlt, FaTags, FaListAlt } from 'react-icons/fa';
 import { Navigate, useNavigate } from 'react-router-dom';
 const menuItems = [
   {
     icon: FaUser, 
-    name: 'User',
+    name: 'Người dùng',
   },
   {
     icon: FaBook, 
-    name: 'Manga',
+    name: 'Truyện tranh',
   },
+  // {
+  //   icon: FaClipboardList, 
+  //   name: 'Chương',
+  // },
   {
-    icon: FaClipboardList, 
-    name: 'Chapter',
+    icon: FaListAlt, 
+    name: 'Thể loại',
   },
   {
     icon: FaChartLine, 
-    name: 'Analyst',
-  },
-  {
-    icon: FaCog, 
-    name: 'Settings',
+    name: 'Thống kê',
   },
   {
     icon: FaSignOutAlt, 

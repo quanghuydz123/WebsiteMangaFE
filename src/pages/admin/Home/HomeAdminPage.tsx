@@ -1,9 +1,7 @@
 
 import { useState } from 'react';
-import Manga from "../Manga/Manga";
 import MainContent from '../../../components/Admin/Main/Main';
 import Sidebar from '../../../components/Admin/Sidebar/Sidebar';
-import Pagination from '../../../components/Admin/Pagination/Pagination';
 
 
 

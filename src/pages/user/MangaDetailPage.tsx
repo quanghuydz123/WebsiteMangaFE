@@ -106,7 +106,7 @@ const MangaDetailPage = () => {
         }
 
         fetchMangaDetail()
-    }, [])
+    }, [id])
 
     return (
         <DefaultLayoutUser>

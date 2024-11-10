@@ -1,3 +1,5 @@
+import { DTOManga, SelectedManga } from "./apiResponse";
+
 interface AbstractModel {
     isDeleted?: boolean;
     createdAt?: Date;
@@ -72,4 +74,13 @@ export interface Comment extends AbstractModel {
     _idUser: string | null;
     userName: string;
     text: string;
+}
+
+export interface MangaTableProps {
+    openModal: () => void,
+    setCurrentSelectedManga: React.Dispatch<React.SetStateAction<SelectedManga>>
+    currentPage: number,
+    totalPages: number,
+    handlePageChange: (page: number) => void,
+    rows: DTOManga[]
 }

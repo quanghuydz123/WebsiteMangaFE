@@ -3,7 +3,7 @@ import DefaultLayoutUser from "../../layouts/DefaultLayoutUser/DefaultLayoutUser
 import apiHandler from "../../apis/apiHandler"
 import { Chapter, Manga } from "../../constrants/type"
 import { ENDPOINTS } from "../../constrants/webInfo"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import Loader from "../../components/User/Common/Loader"
 import BreadCrumb from "../../components/User/Common/BreadCrumb"
 import { formatISODate } from "../../utils/FormatDate"
@@ -28,6 +28,10 @@ const MangaDetailPage = () => {
 
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
+    const nav = useNavigate()
+
+    const userId = localStorage.getItem("userId")
+
     const handleRatingClick = (value: number) => {
         setRating(value);
     };
@@ -35,10 +39,13 @@ const MangaDetailPage = () => {
     const handleFollowClick = async() => {
         try {
             setLoading(true)
-            await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'create', {
-                user: id,
+            var followingRequest = {
+                user: userId,
                 manga: id,
-            }, 'post')
+            }
+            isFollowing ? 
+                await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'unfollow', followingRequest, 'delete') 
+                : apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'create', followingRequest, 'post')
             setIsFollowing((prev) => !prev);
         } catch (err) {
             console.log(err)
@@ -46,6 +53,23 @@ const MangaDetailPage = () => {
             setLoading(false)
         }
     };
+
+    const handleChapterClick = async (chapter: Chapter) => {
+        try {
+            setLoading(true)
+            var addHistoryRequest = {
+                idUser: userId,
+                idChapter: chapter._id,
+            }
+            console.log(addHistoryRequest)
+            await apiHandler.execute(ENDPOINTS.USER_ENDPOINT, 'add-reading-history', addHistoryRequest, 'post') 
+        } catch (err) {
+            console.log(err)
+        } finally {
+            setLoading(false)
+        }
+        nav(`/manga/${id}/read?chapterNum=${chapter.chapterNum}`)
+    }
     
     const breadCrumbItems = [
         { label: 'Trang chủ', href: '/', icon: <i className="fa-solid fa-house"></i> },
@@ -60,6 +84,8 @@ const MangaDetailPage = () => {
                 setManga(result.data)
                 result = await apiHandler.execute(ENDPOINTS.CHAPTER_ENDPOINT, `get-page?mangaId=${id}&limit=10&orderType=DESC`, null, 'get')
                 setChapters(result.data.chapters)
+                result = await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, `check-isFollow?idManga=${id}&idUser=${userId}`)
+                setIsFollowing(result.data)
             } catch(err) {
                 console.log(err)
             } finally {
@@ -176,9 +202,9 @@ const MangaDetailPage = () => {
                                                             <tr key={chapter?._id} className="border-b border-gray-600 hover:bg-gray-700">
                                                                 <td className="py-3 px-6 text-gray-300">#{chapters.length - index}</td>
                                                                 <td className="py-3 px-6">
-                                                                    <a href={`/manga/${manga?._id}/chapter/${chapter?._id}`} className="text-blue-400 hover:underline">
+                                                                    <p onClick={() => handleChapterClick(chapter)} className="text-blue-400 hover:underline cursor-pointer">
                                                                         {chapter.title}
-                                                                    </a>
+                                                                    </p>
                                                                 </td>
                                                                 <td className="py-3 px-6 text-gray-300">{formatISODate(chapter?.createdAt)}</td>
                                                             </tr>

@@ -32,10 +32,6 @@ const MangaDetailPage = () => {
 
     const userId = localStorage.getItem("userId")
 
-    const handleRatingClick = (value: number) => {
-        setRating(value);
-    };
-
     const handleFollowClick = async() => {
         try {
             setLoading(true)
@@ -45,12 +41,29 @@ const MangaDetailPage = () => {
             }
             isFollowing ? 
                 await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'unfollow', followingRequest, 'delete') 
-                : apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'create', followingRequest, 'post')
+                : await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, 'create', followingRequest, 'post')
             setIsFollowing((prev) => !prev);
         } catch (err) {
             console.log(err)
         } finally {
             setLoading(false)
+        }
+    };
+
+    const handleRatingClick = async (value: number) => {
+        setRating(value);
+        // Prepare the rating request data
+        const RatingRequest = {
+            user: userId,
+            manga: id,
+            star: value, // Use `value` which is the selected rating (from 1 to 5)
+        };
+    
+        try {
+            // Send the rating request to the backend
+            await apiHandler.execute(ENDPOINTS.RATING_ENDPOINT, 'toggle-rating', RatingRequest, 'post');
+        } catch (err) {
+            console.log("Error while submitting rating:", err);
         }
     };
 
@@ -61,7 +74,6 @@ const MangaDetailPage = () => {
                 idUser: userId,
                 idChapter: chapter._id,
             }
-            console.log(addHistoryRequest)
             await apiHandler.execute(ENDPOINTS.USER_ENDPOINT, 'add-reading-history', addHistoryRequest, 'post') 
         } catch (err) {
             console.log(err)
@@ -118,7 +130,7 @@ const MangaDetailPage = () => {
                                     <p className="font-bold mb-4">Thể loại:</p>
                                     <div className="flex mb-4 gap-3 flex-wrap w-full">
                                         {manga?.genres.map((genre) => (
-                                            <span key={genre.name} className="mb-2 p-2 bg-blue-500 font-bold text-white rounded-md">
+                                        <span key={genre.name} className="mb-2 p-2 bg-blue-500 font-bold text-white rounded-md cursor-pointer" onClick={() => nav(`/genres/${genre._id}`)}>
                                                 {genre.name}
                                             </span>
                                         ))}

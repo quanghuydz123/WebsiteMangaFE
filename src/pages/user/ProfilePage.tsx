@@ -3,54 +3,101 @@ import DefaultLayoutUser from "../../layouts/DefaultLayoutUser/DefaultLayoutUser
 import apiHandler from "../../apis/apiHandler";
 import { ENDPOINTS } from "../../constrants/webInfo";
 import Loader from "../../components/User/Common/Loader";
-import { User, Manga, ReadingHistory } from "../../constrants/type";
+import { User, Manga, ReadingHistory, MangaFollowing } from "../../constrants/type";
+import { useNavigate } from "react-router-dom";
 
 interface MangaReadingHistory {
     manga: Manga;
     chapters: ReadingHistory[];
 }
 
-const MangaListTable = ({ readingHistory }: { readingHistory: MangaReadingHistory[] }) => {
+interface FollowedMangaProps {
+    followedManga: MangaFollowing[];
+}
+
+const MangaListTable = ({ readingHistory }: { readingHistory: MangaReadingHistory[] }) => (
+    <div className="mt-8 w-full bg-gray-800 rounded-lg shadow-md p-6">
+        <h3 className="text-2xl font-bold mb-4 text-white">Lịch sử đọc truyện</h3>
+        {readingHistory.length ? (
+            <table className="w-full text-left text-gray-300">
+                <thead>
+                    <tr className="border-b border-gray-700">
+                        <th className="py-2 px-4">Ảnh</th>
+                        <th className="py-2 px-4">Tên truyện</th>
+                        <th className="py-2 px-4">Chapters đã đọc</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {readingHistory.map(({ manga, chapters }) => (
+                        <tr key={manga._id} className="border-b border-gray-700">
+                            <td className="py-4 px-4">
+                                <img
+                                    src={manga.imageUrl}
+                                    alt={manga.name}
+                                    className="w-20 h-20 object-cover rounded"
+                                />
+                            </td>
+                            <td className="py-4 px-4 font-semibold">{manga.name}</td>
+                            <td className="py-4 px-4">
+                                <ul className="list-disc">
+                                    {chapters.map((chapter) => (
+                                        <li key={chapter.title}>
+                                            <a href={`/manga/${manga._id}/read?chapterNum=1`} className="text-blue-400 hover:underline cursor-pointer">
+                                                {chapter.title} <span className="text-xs text-gray-400">(Đã đọc)</span>
+                                            </a>
+                                        </li>
+                                    ))}
+                                </ul>
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        ) : (
+            <p className="text-gray-300">Không có lịch sử đọc truyện.</p>
+        )}
+    </div>
+);
+
+const FollowedMangaTable = ({ followedManga }: FollowedMangaProps) => {
     return (
         <div className="mt-8 w-full bg-gray-800 rounded-lg shadow-md p-6">
-            <h3 className="text-2xl font-bold mb-4 text-white">Lịch sử đọc truyện</h3>
-            {readingHistory.length ? (
+            <h3 className="text-2xl font-bold mb-4 text-white">Truyện đã theo dõi</h3>
+            {followedManga.length ? (
                 <table className="w-full text-left text-gray-300">
                     <thead>
                         <tr className="border-b border-gray-700">
                             <th className="py-2 px-4">Ảnh</th>
                             <th className="py-2 px-4">Tên truyện</th>
-                            <th className="py-2 px-4">Chapters đã đọc</th>
+                            <th className="py-2 px-4">Chapter mới nhất</th>
+                            <th className="py-2 px-4">Ngày cập nhật</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {readingHistory.map(({ manga, chapters }) => (
+                        {followedManga.map((manga) => (
                             <tr key={manga._id} className="border-b border-gray-700">
                                 <td className="py-4 px-4">
                                     <img
-                                        src={manga.imageUrl}
-                                        alt={manga.name}
+                                        src={manga.mangaImageUrl}
+                                        alt={manga.mangaName}
                                         className="w-20 h-20 object-cover rounded"
                                     />
                                 </td>
-                                <td className="py-4 px-4 font-semibold">{manga.name}</td>
-                                <td className="py-4 px-4">
-                                    <ul className="list-disc">
-                                        {chapters.map((chapter) => (
-                                            <li key={chapter.title}>
-                                                <p className="text-blue-400 hover:underline cursor-pointer">
-                                                    {chapter.title} <span className="text-xs text-gray-400">(Đã đọc)</span>
-                                                </p>
-                                            </li>
-                                        ))}
-                                    </ul>
+                                <td className="py-4 px-4 font-semibold">{manga.mangaName}</td>
+                                <td className="py-4 px-4 text-blue-400 hover:underline cursor-pointer">
+                                    <a href={`/manga/${manga._id}`}>
+                                        {manga.latestChapterTitle}
+                                    </a>
+                                </td>
+                                <td className="py-4 px-4 text-gray-400">
+                                    {new Date(manga.latestChapterCreatedAt).toLocaleDateString()}
                                 </td>
                             </tr>
                         ))}
                     </tbody>
                 </table>
             ) : (
-                <p className="text-gray-300">Không có lịch sử đọc truyện.</p>
+                <p className="text-gray-300">Không có truyện nào trong danh sách theo dõi.</p>
             )}
         </div>
     );
@@ -63,6 +110,7 @@ export default function ProfilePage() {
     const [user, setUser] = useState<User>();
     const [loading, setLoading] = useState(false);
     const [readingHistory, setReadingHistory] = useState<MangaReadingHistory[]>([]);
+    const [followedManga, setFollowedManga] = useState<MangaFollowing[]>([]);
 
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -86,6 +134,10 @@ export default function ProfilePage() {
                 });
 
                 setReadingHistory(groupedHistory);
+
+                // Fetch followed manga list
+                const followResult = await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, `get-library?id=${userId}`, null, "get");
+                setFollowedManga(followResult.data);
             } catch (err) {
                 console.log(err);
             } finally {
@@ -111,7 +163,7 @@ export default function ProfilePage() {
                                 <img 
                                     src={userAvatar} 
                                     alt="User Avatar" 
-                                    className="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-gray-200 shadow-md"
+                                    className="w-32 h-32 rounded-full mx-auto mb-4 border-4 border-gray-200 shadow-md"
                                 />
                             )}
                             <h2 className="text-2xl font-semibold mb-2 text-white">{user?.email}</h2>
@@ -119,6 +171,9 @@ export default function ProfilePage() {
 
                         {/* Manga Reading History Table */}
                         <MangaListTable readingHistory={readingHistory} />
+
+                        {/* Followed Manga List Table */}
+                        <FollowedMangaTable followedManga={followedManga} />
                     </div>
                 )}
             </div>

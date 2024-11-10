@@ -16,6 +16,9 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
     const [error, setError] = useState<string | null>(null);
     const [showAddComment, setShowAddComment] = useState(false);
     const [newComment, setNewComment] = useState("");
+    const [editCommentId, setEditCommentId] = useState<string | null>(null);
+    const [editCommentText, setEditCommentText] = useState("");
+    const userId = localStorage.getItem("userId");
 
     const fetchComments = useCallback(async () => {
       if (!hasMore || loading) return;
@@ -66,17 +69,55 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
     const handleAddComment = async () => {
       if (!newComment.trim()) return;
       try {
-        await apiHandler.execute(
+        const result = await apiHandler.execute(
           ENDPOINTS.COMMENT_ENDPOINT,
-          `add-comment`,
-          { mangaId, text: newComment },
+          `create`,
+          { manga: mangaId, user: userId, text: newComment, isReturnNewData: true },
           "post"
         );
-        setComments([{ _idComment: String(Date.now()), userName: "You", text: newComment }, ...comments]);
-        setNewComment("");
-        setShowAddComment(false);
+       // Thêm bình luận mới vào đầu danh sách
+      const newAddedComment = result.data; // Giả sử API trả về bình luận mới
+      setComments((prevComments) => [{ ...newAddedComment, _idUser: newAddedComment.user}, ...prevComments]);
+
+      setNewComment("");
+      setShowAddComment(false);
       } catch (err) {
         setError("Failed to add comment.");
+        console.log(err);
+      }
+    };
+
+    const handleDeleteComment = async (id: string) => {
+      try {
+        await apiHandler.execute(
+          ENDPOINTS.COMMENT_ENDPOINT,
+          `delete-commentById`,
+          { idComment: id },
+          "delete"
+        );
+        setComments(comments.filter(comment => comment._id !== id));
+      } catch (err) {
+        setError("Failed to delete comment.");
+        console.log(err);
+      }
+    };
+
+    const handleUpdateComment = async () => {
+      if (!editCommentText.trim() || !editCommentId) return;
+      try {
+        await apiHandler.execute(
+          ENDPOINTS.COMMENT_ENDPOINT,
+          `update?id=${editCommentId}`,
+          { text: editCommentText },
+          "put"
+        );
+        setComments(comments.map(comment =>
+          comment._id === editCommentId ? { ...comment, text: editCommentText } : comment
+        ));
+        setEditCommentId(null);
+        setEditCommentText("");
+      } catch (err) {
+        setError("Failed to update comment.");
         console.log(err);
       }
     };
@@ -87,11 +128,47 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
         {error && <p className="text-red-500">{error}</p>}
         <div className="space-y-6">
           {comments.map((comment) => (
-            <div key={comment._idComment} className="flex items-start space-x-4 p-4 bg-gray-700 rounded-md">
+            <div key={comment._id} className="flex items-start space-x-4 p-4 bg-gray-700 rounded-md">
               <img src={defaultAvatar} alt="Avatar" className="w-12 h-12 rounded-full" />
               <div>
                 <p className="text-white font-semibold">{comment.userName}</p>
-                <p className="text-gray-300">{comment.text}</p>
+                {editCommentId === comment._id ? (
+                  <div>
+                    <textarea
+                      value={editCommentText}
+                      onChange={(e) => setEditCommentText(e.target.value)}
+                      className="w-full p-2 bg-gray-700 text-white rounded-md"
+                    />
+                    <button onClick={handleUpdateComment} className="bg-blue-600 text-white px-4 py-2 rounded-md mt-2">
+                      Cập nhật
+                    </button>
+                    <button onClick={() => setEditCommentId(null)} className="bg-gray-500 text-white px-4 py-2 rounded-md mt-2 ml-2">
+                      Hủy
+                    </button>
+                  </div>
+                ) : (
+                  <p className="text-gray-300">{comment.text}</p>
+                )}
+                {comment._idUser == userId && (
+                  <>
+                    <button 
+                      onClick={() => handleDeleteComment(comment._id)} 
+                      className="text-red-500 mt-2 border border-red-500 px-2 py-1 rounded-md hover:bg-red-500 hover:text-white transition"
+                    >
+                      Xóa
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setEditCommentId(comment._id);
+                        setEditCommentText(comment.text);
+                      }}
+                      className="text-blue-500 mt-2 ml-4 border border-blue-500 px-2 py-1 rounded-md hover:bg-blue-500 hover:text-white transition"
+                    >
+                      Chỉnh sửa
+                    </button>
+                  </>
+                )}
               </div>
             </div>
           ))}

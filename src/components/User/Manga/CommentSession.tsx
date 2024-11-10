@@ -198,10 +198,10 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
                 onClick={handleAddComment}
                 className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
             >
-                {editingCommentId ? "Cập nhật bình luận" : "Gửi bình luận"}
+                {editCommentId ? "Cập nhật bình luận" : "Gửi bình luận"}
             </button>
             <button
-                onClick={() => { setShowAddComment(false); setEditingCommentId(null); }}
+                onClick={() => { setShowAddComment(false); setEditCommentId(null); }}
                 className="mt-2 ml-2 bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition"
             >
                 Hủy

@@ -13,21 +13,26 @@ const emptyData: Genre = {
   updatedAt: ''
 };
 
-const itemsPerPage = 10; 
+const itemsPerPage = 10;
 
 const GenreTable: React.FC = () => {
   const [rows, setRows] = useState<Genre[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedGenre, setSelectedGenre] = useState<Genre>(emptyData);
   const [isEditing, setIsEditing] = useState<boolean>(false);
+  const [totalPages, setTotalPages] = useState<number>(0);
 
   useEffect(() => {
-    fetchGenres();
-  }, []);
+    fetchGenres(currentPage);
+  }, [currentPage]);
 
-  const fetchGenres = async () => {
+  const fetchGenres = async (page: number) => {
     try {
-      const response = await GenreApi.getAll();
+      const response = await GenreApi.getAll(
+        page,
+        10,
+      );
+      setTotalPages(response.data.totalPages);
       setRows(response.data.genres);
     } catch (error) {
       console.error("Error fetching genres:", error);
@@ -47,7 +52,7 @@ const GenreTable: React.FC = () => {
     try {
       const response = await GenreApi.add(selectedGenre.name);
       console.log('Genre added successfully', response);
-      fetchGenres();
+      fetchGenres(currentPage);
     } catch (error) {
       console.error('Error adding genre:', error);
     }
@@ -56,10 +61,10 @@ const GenreTable: React.FC = () => {
   const updateGenre = async (genreId: string) => {
     try {
       const response = await GenreApi.update(selectedGenre.name, genreId);
-      console.log('Genre updated successfully',response);
+      console.log('Genre updated successfully', response);
       setIsEditing(false);
       setSelectedGenre(emptyData);
-      fetchGenres();
+      fetchGenres(currentPage);
     } catch (error) {
       console.error('Error updating genre:', error);
     }
@@ -71,8 +76,7 @@ const GenreTable: React.FC = () => {
   };
 
   // Calculate paginated data
-  const paginatedRows = rows.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-  const totalPages = Math.ceil(rows.length / itemsPerPage);
+  // const totalPages = Math.ceil(rows.length / itemsPerPage);
 
   return (
     <div className="container mx-auto p-4">
@@ -90,7 +94,7 @@ const GenreTable: React.FC = () => {
             placeholder="Enter genre name"
           />
         </div>
-        
+
         <button
           type="button"
           onClick={() => (isEditing ? updateGenre(selectedGenre._id) : addGenre())}
@@ -111,20 +115,20 @@ const GenreTable: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {paginatedRows.map((genre) => (
+              {rows.map((genre) => (
                 <tr className="border-b border-slate-200 text-sm md:text-base" key={genre._id}>
                   <td className="px-4 py-3 font-medium">{genre._id}</td>
                   <td className={`px-4 py-3 font-medium ${genre.isDeleted ? 'line-through text-red-700' : ''}`}>
                     {genre.name}
                   </td>
                   <td className="px-4 py-3 space-y-2 sm:space-y-0 sm:space-x-2">
-                    
-                        <button
-                          onClick={() => handleEditClick(genre)}
-                          className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 w-full sm:w-auto "
-                        >
-                          Chỉnh Sửa
-                        </button>
+
+                    <button
+                      onClick={() => handleEditClick(genre)}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 w-full sm:w-auto "
+                    >
+                      Chỉnh Sửa
+                    </button>
                   </td>
                 </tr>
               ))}

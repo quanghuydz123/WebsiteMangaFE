@@ -41,6 +41,8 @@ export default function NavigationBar() {
     const handleLogout = () => {
         localStorage.removeItem("userEmail");
         localStorage.removeItem("userAvatar");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("token");
     };
 
     return (

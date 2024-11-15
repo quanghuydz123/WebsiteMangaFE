@@ -6,6 +6,17 @@ interface AbstractModel {
     updatedAt?: Date;
 }
 
+export interface User extends AbstractModel {
+    _id: string;
+    email: string;
+    reading_history: ReadingHistory[];
+}
+
+export interface ReadingHistory {
+    manga: Manga;
+    title: string;
+}
+
 export interface Author extends AbstractModel {
     _id: string;
     name: string;
@@ -25,6 +36,7 @@ export interface Genre extends AbstractModel {
 
 export interface Chapter extends AbstractModel {
     _id: string;
+    chapterNum: number;
     manga: string,
     title: string,
     isDeleted: boolean,
@@ -47,8 +59,19 @@ export interface Manga extends AbstractModel {
     rating: number;
 }
 
+export interface MangaFollowing {
+    _id: string;
+    idManga: string;
+    mangaName: string;
+    mangaImageUrl: string;
+    latestChapterId: string;
+    latestChapterTitle: string;
+    latestChapterCreatedAt: string;
+}
+
 export interface Comment extends AbstractModel {
-    _idComment: string;
+    _id: string;
+    _idUser: string | null;
     userName: string;
     text: string;
 }

@@ -2,15 +2,34 @@ import axios from "axios";
 import { Base, GenreResponse, GetGenreResponse } from "../constrants/apiResponse";
 import { API_BASE_URL } from "./apiService";
 
-// Get all genres with query parameters
-async function getAllGenres(): Promise<Base<GetGenreResponse>> {
-    const response = await axios.get<Base<GetGenreResponse>>(`${API_BASE_URL}/genres/get-advanced-page?page=1&limit=100&filter=_id%2Cname`);
-    return response.data
+interface PaginationParams {
+    page?: number;
+    limit?: number;
+    filter?: string;
 }
 
-async function getAll(): Promise<Base<GenreResponse>> {
-    const response = await axios.get<Base<GenreResponse>>(`${API_BASE_URL}/genres/get-advanced-page?page=1&limit=100&filter=_id%2Cname`);
-    return response.data
+// Function to build query parameters dynamically
+function buildQueryParams(params: PaginationParams): string {
+    const queryParams = new URLSearchParams();
+    if (params.page) queryParams.append("page", params.page.toString());
+    if (params.limit) queryParams.append("limit", params.limit.toString());
+    if (params.filter) queryParams.append("filter", params.filter);
+
+    return queryParams.toString();
+}
+
+// Modified getAllGenres function with dynamic parameters
+async function getAllGenres(page = 1, limit = 100): Promise<Base<GetGenreResponse>> {
+    const params = buildQueryParams({ page, limit, filter: "_id,name" });
+    const response = await axios.get<Base<GetGenreResponse>>(`${API_BASE_URL}/genres/get-advanced-page?${params}`);
+    return response.data;
+}
+
+// Modified getAll function with dynamic parameters
+async function getAll(page = 1, limit = 100): Promise<Base<GenreResponse>> {
+    const params = buildQueryParams({ page, limit, filter: "_id,name" });
+    const response = await axios.get<Base<GenreResponse>>(`${API_BASE_URL}/genres/get-advanced-page?${params}`);
+    return response.data;
 }
 
 async function add(genreName: string) {

@@ -41,7 +41,15 @@ const Analysis = () => {
             animate="visible"
         >
             <CustomBarChart variants={itemVariants}/>
-            <CustomPieChart variants={itemVariants}/>
+        </motion.div>
+        <motion.div className="translate-all flex flex-col gap-4 p-4 
+        duration-300 sm:px-7 sm:py-1 xl:flex-row"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+        >
+
+            {/* <CustomPieChart variants={itemVariants}/> */}
         </motion.div>
         <motion.div className="translate-all flex flex-col gap-4 p-4 
         duration-300 sm:px-7 sm:py-1 xl:flex-row"
@@ -50,7 +58,7 @@ const Analysis = () => {
             animate="visible"
         >
             <Table variants={itemVariants}/>
-            <Activity variants={itemVariants}/>
+            {/* <Activity variants={itemVariants}/> */}
         </motion.div>
         
     </>

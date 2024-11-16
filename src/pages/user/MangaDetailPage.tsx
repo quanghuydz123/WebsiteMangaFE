@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import DefaultLayoutUser from "../../layouts/DefaultLayoutUser/DefaultLayoutUser"
 import apiHandler from "../../apis/apiHandler"
-import { Chapter, Manga } from "../../constrants/type"
+import { Chapter, Manga, Rating } from "../../constrants/type"
 import { ENDPOINTS } from "../../constrants/webInfo"
 import { useNavigate, useParams } from "react-router-dom"
 import Loader from "../../components/User/Common/Loader"
@@ -10,6 +10,7 @@ import { formatISODate } from "../../utils/FormatDate"
 import { formatNumber } from "../../utils/FormatNumber"
 import MangaTag from "../../components/User/Manga/MangaTag"
 import CommentSection from "../../components/User/Manga/CommentSession"
+import Modal from "../../components/User/Common/Modal"
 
 
 const MangaDetailPage = () => {
@@ -22,15 +23,26 @@ const MangaDetailPage = () => {
     
     const [loading, setLoading] = useState(false)
 
-    const [rating, setRating] = useState(0);
+    const [rating, setRating] = useState<Rating>();
 
     const [ratingHover, setRatingHover] = useState(0);
 
     const [isFollowing, setIsFollowing] = useState<boolean>(false);
 
+    const [showAdultWarning, setShowAdultWarning] = useState(false);
+
     const nav = useNavigate()
 
     const userId = localStorage.getItem("userId")
+
+    const handleConfirm = () => {
+        localStorage.setItem("adultWarning", "true");
+        setShowAdultWarning(false);
+    };
+    
+      const handleClose = () => {
+        window.location.href = "/"; // Chuyển hướng nếu người dùng không đồng ý
+    };
 
     const handleFollowClick = async() => {
         try {
@@ -51,19 +63,22 @@ const MangaDetailPage = () => {
     };
 
     const handleRatingClick = async (value: number) => {
-        setRating(value);
-        // Prepare the rating request data
-        const RatingRequest = {
-            user: userId,
-            manga: id,
-            star: value, // Use `value` which is the selected rating (from 1 to 5)
+        const RatingRequest: Rating = {
+            user: userId as string,
+            manga: id as string,
+            star: value,
         };
     
         try {
-            // Send the rating request to the backend
-            await apiHandler.execute(ENDPOINTS.RATING_ENDPOINT, 'toggle-rating', RatingRequest, 'post');
+            await apiHandler.execute(
+                ENDPOINTS.RATING_ENDPOINT,
+                'toggle-rating',
+                RatingRequest,
+                'post'
+            );
+            setRating(RatingRequest); // Cập nhật giá trị rating trong state
         } catch (err) {
-            console.log("Error while submitting rating:", err);
+            console.log('Error while submitting rating:', err);
         }
     };
 
@@ -93,11 +108,23 @@ const MangaDetailPage = () => {
             try {
                 setLoading(true)
                 var result = await apiHandler.execute(ENDPOINTS.MANGA_ENPOINT, `get-manga-byid?id=${id}`, null, "get")
+                const isAdult = result.data.genres.some(
+                    (genre: { name: string }) => genre.name === "18+"
+                  );
+          
+                  if (isAdult) {
+                    const viewedWarning = localStorage.getItem(`adultWarning`);
+                    if (!viewedWarning) {
+                      setShowAdultWarning(true);
+                    }
+                }
                 setManga(result.data)
                 result = await apiHandler.execute(ENDPOINTS.CHAPTER_ENDPOINT, `get-page?mangaId=${id}&limit=10&orderType=DESC`, null, 'get')
                 setChapters(result.data.chapters)
                 result = await apiHandler.execute(ENDPOINTS.FOLLOWING_ENDPOINT, `check-isFollow?idManga=${id}&idUser=${userId}`)
                 setIsFollowing(result.data)
+                result = await apiHandler.execute(ENDPOINTS.RATING_ENDPOINT, `get-ratingByIdUserAndManga?idUser=${userId}&idManga=${id}`)
+                setRating(result.data)
             } catch(err) {
                 console.log(err)
             } finally {
@@ -116,6 +143,14 @@ const MangaDetailPage = () => {
                         <Loader />
                     ) : (
                         <>
+                            {showAdultWarning && (
+                                <Modal
+                                title="Thông báo"
+                                content="Bạn phải đủ 18 tuổi trở lên để xem nội dung này. Bạn có đồng ý tiếp tục không?"
+                                onConfirm={handleConfirm}
+                                onClose={handleClose}
+                                />
+                            )}
                             <BreadCrumb items={breadCrumbItems}/>
                             <div className="flex gap-10 min-h-screen">
                                 {/* Managa Cover Image */}
@@ -130,7 +165,7 @@ const MangaDetailPage = () => {
                                     <p className="font-bold mb-4">Thể loại:</p>
                                     <div className="flex mb-4 gap-3 flex-wrap w-full">
                                         {manga?.genres.map((genre) => (
-                                        <span key={genre.name} className="mb-2 p-2 bg-blue-500 font-bold text-white rounded-md cursor-pointer" onClick={() => nav(`/genres/${genre._id}`)}>
+                                            <span key={genre.name} className="mb-2 p-2 bg-blue-500 font-bold text-white rounded-md cursor-pointer" onClick={() => nav(`/genres/${genre._id}`)}>
                                                 {genre.name}
                                             </span>
                                         ))}
@@ -183,7 +218,7 @@ const MangaDetailPage = () => {
                                                     <i
                                                         key={index}
                                                         className={`fa-solid fa-star text-2xl ${
-                                                            starValue <= (ratingHover || rating) ? 'text-yellow-500' : 'text-gray-400'
+                                                            starValue <= (ratingHover || rating?.star as number) ? 'text-yellow-500' : 'text-gray-400'
                                                         } cursor-pointer`}
                                                         onClick={() => handleRatingClick(starValue)}
                                                         onMouseEnter={() => setRatingHover(starValue)}
@@ -192,7 +227,7 @@ const MangaDetailPage = () => {
                                                 );
                                             })}
                                             <span className="ml-2 text-gray-300 font-thin">
-                                                {rating > 0 ? `${rating} / 5` : "Bạn chưa đánh giá truyện này"}
+                                                {rating?.star as number > 0 ? `${rating?.star as number} / 5` : "Bạn chưa đánh giá truyện này"}
                                             </span>
                                         </div>
                                     </div>

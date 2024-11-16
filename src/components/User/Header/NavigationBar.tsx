@@ -77,40 +77,45 @@ export default function NavigationBar() {
             <div className="flex items-stretch gap-4">
                 <SearchBar />
                 {userEmail && userAvatar ? (
-                    <div 
-                        className="relative flex items-center gap-2"
-                        onMouseEnter={() => setIsUserDropdownOpen(true)} // Open dropdown on hover
-                        onMouseLeave={() => setIsUserDropdownOpen(false)} // Close dropdown on mouse leave
-                    >
-                        <img 
-                            src={userAvatar} 
-                            alt="User Avatar" 
-                            className="w-10 h-10 rounded-full cursor-pointer"
-                        />
-                        <span className="text-white">{userEmail}</span>
-                        {/* User Dropdown Menu */}
-                        {isUserDropdownOpen && (
-                            <div className="absolute top-[36px] z-10 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-40 mt-2">
-                                <ul className="py-2 text-lg">
-                                    <li>
-                                        <a 
-                                            href="/profile" 
-                                            className="block px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
-                                        >
-                                            Profile
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <button 
-                                            className="block w-full text-left px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
-                                            onClick={handleLogout}
-                                        >
-                                            Đăng xuất
-                                        </button>
-                                    </li>
-                                </ul>
-                            </div>
-                        )}
+                    <div className="flex items-center">
+                        <div 
+                            className="relative flex items-center gap-2"
+                            onMouseEnter={() => setIsUserDropdownOpen(true)} // Open dropdown on hover
+                            onMouseLeave={() => setIsUserDropdownOpen(false)} // Close dropdown on mouse leave
+                        >
+                            <img 
+                                src={userAvatar} 
+                                alt="User Avatar" 
+                                className="w-10 h-10 rounded-full cursor-pointer"
+                            />
+                            <span className="text-white">{userEmail}</span>
+                            {/* User Dropdown Menu */}
+                            {isUserDropdownOpen && (
+                                <div className="absolute top-[36px] z-10 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-40 mt-2">
+                                    <ul className="py-2 text-lg">
+                                        <li>
+                                            <a 
+                                                href="/profile" 
+                                                className="block px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
+                                            >
+                                                Profile
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <button 
+                                                className="block w-full text-left px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
+                                                onClick={handleLogout}
+                                            >
+                                                Đăng xuất
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                        <div className="cursor-pointer mx-4" onClick={() => nav('/notification')}>
+                            <i className="fa-regular fa-bell text-2xl"></i>
+                        </div>
                     </div>
                 ) : (
                     <button 
@@ -121,6 +126,7 @@ export default function NavigationBar() {
                         Đăng nhập
                     </button>
                 )}
+
             </div>
         </div>
     );

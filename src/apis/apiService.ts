@@ -1,7 +1,7 @@
 // src/services/apiService.ts
 
 import axios, { AxiosResponse } from 'axios';
-import { Base, DTOManga, MangaResponseData, UpdateMangaData } from '../constrants/apiResponse';
+import { Base, DTOManga, MangaResponseData, UpdateMangaData, UserDTO } from '../constrants/apiResponse';
 
 
 export const API_BASE_URL = 'https://researchdevzone.azurewebsites.net'; // Replace with your API base URL
@@ -24,31 +24,22 @@ class ApiService<T> {
     return queryString ? `?${queryString}` : '';
   }
 
-  // Create a new resource
-  async createUser(data: T, suffix?: string): Promise<AxiosResponse<T>> {
-    return axios.post<T>(`${this.endpoint}${suffix ? `/${suffix}` : ''}`, data);
-  }
+  
 
   // Read all resources
   async getAllUser(suffix?: string): Promise<AxiosResponse<T>> {
     return axios.get<T>(`${this.endpoint}${suffix ? `/${suffix}` : ''}`);
   }
 
-  // Read a single resource by ID
-  async getUserById(id: string, suffix?: string): Promise<AxiosResponse<T>> {
-    return axios.get<T>(`${this.endpoint}/get-user-byid?id=${id}${suffix ? `/${suffix}` : ''}`);
-  }
 
-  // Update a resource by ID
-  async updateUser(id: string, data: T, suffix?: string): Promise<AxiosResponse<T>> {
-    return axios.put<T>(`${this.endpoint}/${id}${suffix ? `/${suffix}` : ''}`, data);
-  }
-
-  // Delete a resource by ID
-  async deleteUser(id: string, suffix?: string): Promise<AxiosResponse<void>> {
-    return axios.delete<void>(`${this.endpoint}/${id}${suffix ? `/${suffix}` : ''}`);
-  }
-
+  // Delete  by ID
+  async deleteUser(idUser: string): Promise<AxiosResponse<Base<UserDTO>>> {
+    const url = `${API_BASE_URL}/users/block-user`;
+    return axios.put<Base<UserDTO>>(url, {
+      idUser: idUser ,
+        
+    });
+}
   async getAllManga(params?: QueryParams): Promise<AxiosResponse<Base<MangaResponseData>>> {
     const query = this.buildQuery(params);
     const url = `${this.endpoint}${query}`;

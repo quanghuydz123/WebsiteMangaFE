@@ -6,6 +6,7 @@ import {
   MangaDetailPage,
   MangaListPage,
   MangaReadPage,
+  NotificationPage,
   ProfilePage,
 } from './pages/index';
 import StoreAuth from './pages/user/StoreAuth';
@@ -19,6 +20,7 @@ function App() {
       <Route path='/genres/:genreId' element={<MangaListPage />} />
       <Route path='/manga/:id' element={<MangaDetailPage />} />
       <Route path='/manga/:id/read' element={<MangaReadPage />} />
+      <Route path='/notification' element={<NotificationPage />} />
       <Route path='/admin/*' element={<HomeAdminPage />} />
       <Route path='/login' element={<LoginPage />} />
       {/* Thêm một trang 404 */}

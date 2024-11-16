@@ -76,6 +76,21 @@ export interface Comment extends AbstractModel {
     text: string;
 }
 
+export interface Rating extends AbstractModel {
+    _id?: string;
+    star: number;
+    user: string;
+    manga: string
+}
+
+export interface Notification extends AbstractModel {
+    _id: string;
+    content: string;
+    isRead: boolean;
+    isViewed: boolean;
+    user: string;
+}
+
 export interface MangaTableProps {
     openModal: () => void,
     setCurrentSelectedManga: React.Dispatch<React.SetStateAction<SelectedManga>>

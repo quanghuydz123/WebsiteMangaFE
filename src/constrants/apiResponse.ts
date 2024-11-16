@@ -7,6 +7,25 @@ interface ApiResponse {
   message: string;
   data: Data;
 }
+export interface MangaDoc {
+  _id: string;
+  name: string;
+  views: number;
+}
+export interface MangaDoc2 {
+  _id: string;
+  name: string;
+  rating: number;
+}
+
+export interface MangaResponse {
+  docs: MangaDoc[];
+}
+export interface MangaResponse2 {
+  docs: MangaDoc2[];
+}
+
+
 
 interface Data {
   docs: Document[];

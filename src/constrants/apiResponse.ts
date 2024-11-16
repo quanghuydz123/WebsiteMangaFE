@@ -36,6 +36,18 @@ export interface User {
   email: string;
   isDeleted: boolean;
 }
+export interface UserDTO {
+  _id: string;
+  userName: string;
+  email: string;
+  password: string;
+  isDeleted: boolean;
+  account_type: string;
+  reading_history: string[];
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+}
 
 export interface Manga {
   _id: string

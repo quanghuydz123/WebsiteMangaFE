@@ -91,7 +91,7 @@ const ChapterTable: React.FC = () => {
   const deleteChapter = async (chapterId: string, chapterIsdelete: boolean) => {
     try {
       
-      const response = await ChapterApi.deleteChapter(!chapterIsdelete, chapterId);
+      const response = await ChapterApi.deleteChapter(chapterIsdelete!, chapterId);
       console.log('Chapter deleted successfully:', response);
       setSelectedChapter(emptyData);
       fetchChapters();
@@ -153,7 +153,7 @@ const ChapterTable: React.FC = () => {
                       onClick={() => viewImages(chapter._id ?? "")}
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
                     >
-                      Manage Images
+                      Chi tiết ảnh
                     </button>
                   </td>
                   <td className="px-4 py-3 space-y-2 sm:space-y-0 sm:space-x-2">
@@ -163,13 +163,13 @@ const ChapterTable: React.FC = () => {
                           onClick={() => handleEditClick(chapter)}
                           className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 w-full sm:w-auto"
                         >
-                          Edit
+                          Sửa
                         </button>
                         <button
                           onClick={() => deleteChapter(chapter._id,chapter.isDeleted)}
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto"
                         >
-                          Delete
+                          Xóa
                         </button>
                       </>
                     ) : (
@@ -177,7 +177,7 @@ const ChapterTable: React.FC = () => {
                         onClick={() => deleteChapter(chapter._id,chapter.isDeleted)}
                         className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-full sm:w-auto"
                       >
-                        Restore
+                        Khôi phục
                       </button>
                     )}
                   </td>

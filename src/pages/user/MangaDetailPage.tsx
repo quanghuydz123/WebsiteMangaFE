@@ -11,6 +11,7 @@ import { formatNumber } from "../../utils/FormatNumber"
 import MangaTag from "../../components/User/Manga/MangaTag"
 import CommentSection from "../../components/User/Manga/CommentSession"
 import Modal from "../../components/User/Common/Modal"
+import { useAuth } from "../../context/AuthContext"
 
 
 const MangaDetailPage = () => {
@@ -33,7 +34,7 @@ const MangaDetailPage = () => {
 
     const nav = useNavigate()
 
-    const userId = localStorage.getItem("userId")
+    const { userId } = useAuth()
 
     const handleConfirm = () => {
         localStorage.setItem("adultWarning", "true");
@@ -201,36 +202,42 @@ const MangaDetailPage = () => {
                                     <p className="font-bold mb-2">Nhà xuất bản: <span className="font-thin mx-2">{manga?.publisher.name}</span></p>
                                     <p className="font-bold mb-4">Ngày xuất bản: <span className="font-thin mx-2">{manga && formatISODate(manga?.publish_date.toString())}</span></p>
                                     {/* Rating & Following button */}
-                                    <button
-                                        onClick={handleFollowClick}
-                                        className={`px-4 py-2 rounded-md font-semibold ${
-                                            !isFollowing ? 'bg-blue-500 text-white' : 'bg-red-500 text-white'
-                                        }`}
-                                    >
-                                        {isFollowing ? "Hủy theo dõi" : "Theo dõi ngay"}
-                                    </button>
-                                    <div>
-                                        <p className="font-bold my-4 text-2xl text-blue-500">Đánh giá của bạn</p>
-                                        <div className="flex items-center">
-                                            {Array.from({ length: 5 }, (_, index) => {
-                                                const starValue = index + 1;
-                                                return (
-                                                    <i
-                                                        key={index}
-                                                        className={`fa-solid fa-star text-2xl ${
-                                                            starValue <= (ratingHover || rating?.star as number) ? 'text-yellow-500' : 'text-gray-400'
-                                                        } cursor-pointer`}
-                                                        onClick={() => handleRatingClick(starValue)}
-                                                        onMouseEnter={() => setRatingHover(starValue)}
-                                                        onMouseLeave={() => setRatingHover(0)}
-                                                    ></i>
-                                                );
-                                            })}
-                                            <span className="ml-2 text-gray-300 font-thin">
-                                                {rating?.star as number > 0 ? `${rating?.star as number} / 5` : "Bạn chưa đánh giá truyện này"}
-                                            </span>
-                                        </div>
-                                    </div>
+                                    {
+                                        userId && (
+                                            <>
+                                                <button
+                                                    onClick={handleFollowClick}
+                                                    className={`px-4 py-2 rounded-md font-semibold ${
+                                                        !isFollowing ? 'bg-blue-500 text-white' : 'bg-red-500 text-white'
+                                                    }`}
+                                                >
+                                                    {isFollowing ? "Hủy theo dõi" : "Theo dõi ngay"}
+                                                </button>
+                                                <div>
+                                                    <p className="font-bold my-4 text-2xl text-blue-500">Đánh giá của bạn</p>
+                                                    <div className="flex items-center">
+                                                        {Array.from({ length: 5 }, (_, index) => {
+                                                            const starValue = index + 1;
+                                                            return (
+                                                                <i
+                                                                    key={index}
+                                                                    className={`fa-solid fa-star text-2xl ${
+                                                                        starValue <= (ratingHover || rating?.star as number) ? 'text-yellow-500' : 'text-gray-400'
+                                                                    } cursor-pointer`}
+                                                                    onClick={() => handleRatingClick(starValue)}
+                                                                    onMouseEnter={() => setRatingHover(starValue)}
+                                                                    onMouseLeave={() => setRatingHover(0)}
+                                                                ></i>
+                                                            );
+                                                        })}
+                                                        <span className="ml-2 text-gray-300 font-thin">
+                                                            {rating?.star as number > 0 ? `${rating?.star as number} / 5` : "Bạn chưa đánh giá truyện này"}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </>
+                                        )
+                                    }
                                     {/* Chapter List in Table */}
                                     <div className="mt-8 w-full">
                                         <h3 className="text-2xl font-bold mb-4 text-white">Danh sách tập</h3>

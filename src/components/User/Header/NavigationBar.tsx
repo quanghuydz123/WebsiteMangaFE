@@ -6,11 +6,18 @@ import apiHandler from "../../../apis/apiHandler";
 import { Genre } from "../../../constrants/type";
 import { ENDPOINTS } from "../../../constrants/webInfo";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function NavigationBar() {
+
     const [genres, setGenres] = useState<Genre[]>([]);
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+    const { userEmail, userAvatar, clearAuthInfo } = useAuth();
+
     const limit = 999; // Items per page
     const nav = useNavigate();
 
@@ -33,16 +40,9 @@ export default function NavigationBar() {
         fetchGenreList();
     }, []);
 
-    // Get user information from localStorage
-    const userEmail = localStorage.getItem("userEmail");
-    const userAvatar = localStorage.getItem("userAvatar");
-
     // Handle logout
     const handleLogout = () => {
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userAvatar");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("token");
+        clearAuthInfo();
     };
 
     return (

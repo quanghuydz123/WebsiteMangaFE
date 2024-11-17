@@ -9,7 +9,7 @@ class ApiHandler {
     ) => {
         const response = await axiosClient(`/${endpoint}/${url}`,{
             method: method ?? 'get',
-            data
+            data, withCredentials: true
         })
         return response;
     }   

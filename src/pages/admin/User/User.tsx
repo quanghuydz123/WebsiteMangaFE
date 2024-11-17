@@ -67,7 +67,7 @@ const UserTable: React.FC = () => {
           <table className="min-w-full table-fixed">
             <thead>
               <tr className="text-sm md:text-base">
-                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">ID</th>
+                <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">Role</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-2/12">Name</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Email</th>
                 <th className="px-4 py-2 text-left font-semibold text-slate-400 w-3/12">Actions</th>
@@ -76,7 +76,7 @@ const UserTable: React.FC = () => {
             <tbody>
               {currentPageData.map((user) => (
                 <tr className="border-b border-slate-200 text-sm md:text-base" key={user._id}>
-                  <td className="px-4 py-3 font-medium">{user._id}</td>
+                  <td className="px-4 py-3 font-medium">{user.role.name}</td>
                   <td className={`px-4 py-3 font-medium ${user.isDeleted ? 'line-through text-red-700' : ''}`}>
                     {user.userName}
                   </td>

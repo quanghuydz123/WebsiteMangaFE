@@ -51,7 +51,7 @@ export default function NavigationBar() {
             <a className="font-medium hover:scale-[110%] hover:border-b-2" href="/home">Trang chủ</a>
             {/* Dropdown for genres */}
             <a 
-                className="font-medium hover:scale-[110%] relative"
+                className="font-medium z-20 hover:scale-[110%] relative"
                 href="#"
                 onMouseEnter={() => setIsDropdownOpen(true)}
                 onMouseLeave={() => setIsDropdownOpen(false)}
@@ -59,7 +59,7 @@ export default function NavigationBar() {
                 Thể loại <FontAwesomeIcon icon={faCaretDown} />
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
-                    <div className="absolute z-10 top-6 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-64 max-h-80 overflow-y-scroll">
+                    <div className="absolute top-6 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-64 max-h-96 overflow-y-scroll">
                         <ul className="z-10 py-2 text-lg">
                             {genres.map((genre) => (
                                 <li key={genre._id}>

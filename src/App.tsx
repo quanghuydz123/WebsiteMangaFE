@@ -22,6 +22,7 @@ function App() {
       <Route path='/manga/:id/read' element={<MangaReadPage />} />
       <Route path='/notification' element={<NotificationPage />} />
       <Route path='/admin/*' element={<HomeAdminPage />} />
+      
       <Route path='/login' element={<LoginPage />} />
       {/* Thêm một trang 404 */}
       <Route path='*' element={<h1>404 - Page Not Found</h1>} />

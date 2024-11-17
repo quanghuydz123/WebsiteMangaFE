@@ -3,7 +3,7 @@ import { Base, Chapter, ChapterData, ImageData } from '../constrants/apiResponse
 import { API_BASE_URL } from './apiService';
 
 const CHAPTER_API_URL = `${API_BASE_URL}/chapters`;
-
+axios.defaults.withCredentials = true;
 // Define the query parameters for fetching paginated chapters
 interface ChapterQueryParams {
     mangaId: string;

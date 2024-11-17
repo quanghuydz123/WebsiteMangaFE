@@ -20,13 +20,10 @@ const StoreAuth = () => {
                 const user = JSON.parse(decodeURIComponent(userParam));
                 
                 // Extract the necessary fields
-                const { _id, email, thumbnail } = user;
+                const { _id, email, thumbnail, role } = user;
 
                 // Store in localStorage
-                setAuthInfo(_id, email, thumbnail, tokenParam as string)
-                // localStorage.setItem("userId", _id);
-                // localStorage.setItem("userEmail", email);
-                // localStorage.setItem("userAvatar", thumbnail);
+                setAuthInfo(_id, email, thumbnail, tokenParam as string, role)
             } catch (error) {
                 console.error("Failed to parse user data:", error);
             }

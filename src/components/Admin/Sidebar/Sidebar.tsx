@@ -4,14 +4,18 @@ import MenuItem from "./MenuItem";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
 import { FaUser, FaBook, FaClipboardList, FaTachometerAlt, FaChartLine, FaCog, FaSignOutAlt, FaTags, FaListAlt } from 'react-icons/fa';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
 const menuItems = [
   {
     icon: FaUser, 
     name: 'Người dùng',
+    key: 'Người dùng',
   },
   {
     icon: FaBook, 
     name: 'Truyện tranh',
+    key: 'Truyện tranh',
+
   },
   // {
   //   icon: FaClipboardList, 
@@ -20,21 +24,24 @@ const menuItems = [
   {
     icon: FaListAlt, 
     name: 'Thể loại',
+    key: 'Thể loại',
   },
   {
     icon: FaChartLine, 
     name: 'Thống kê',
+    key: 'Thống kê',
   },
   {
     icon: FaSignOutAlt, 
     name: 'Logout',
-    isLogout: true,
+    isLogout: false,
   },
 ];
 
 
 const Sidebar = ({ isOpen, toggleSidebar, setIsOpen }: {isOpen:any, toggleSidebar:any, setIsOpen:React.Dispatch<React.SetStateAction<boolean>>}) => {
   const navigate= useNavigate()
+  const auth= useAuth()
   useEffect(() => {
   const handleResize = () => {
     if (window.innerWidth<800){
@@ -67,7 +74,14 @@ const Sidebar = ({ isOpen, toggleSidebar, setIsOpen }: {isOpen:any, toggleSideba
             name={item.name}
             isOpen={isOpen}
             isLogout={item.isLogout}
-            onClicked= {()=>{navigate("/admin/"+item.name)}}
+            
+            onClicked= {()=>{if (item.key){
+              navigate("/admin/"+item.key)
+            }
+            else {
+              auth.clearAuthInfo();
+            }
+          }}
           />
         ))
         }

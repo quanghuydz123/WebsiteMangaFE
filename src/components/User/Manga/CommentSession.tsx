@@ -186,46 +186,52 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
         {loading && <p className="text-gray-300 mt-4">Đang tải thêm bình luận...</p>}
         {!hasMore && <p className="text-gray-300 mt-4">Không còn bình luận nào.</p>}
         {/* Add Comment Section */}
-        {showAddComment ? (
-            <div className="mt-6">
-            <textarea
-                value={newComment}
-                onChange={(e) => setNewComment(e.target.value)}
-                className="w-full p-2 bg-gray-700 text-white rounded-md"
-                placeholder="Viết bình luận của bạn..."
-            />
-            <button
-                onClick={handleAddComment}
-                className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
-            >
-                {editCommentId ? "Cập nhật bình luận" : "Gửi bình luận"}
-            </button>
-            <button
-                onClick={() => { setShowAddComment(false); setEditCommentId(null); }}
-                className="mt-2 ml-2 bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition"
-            >
-                Hủy
-            </button>
-            </div>
-        ) : (
-            <button
-            onClick={() => setShowAddComment(true)}
-            className="flex mt-6 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
-            >
-            {commentSendingLoad && (
-              <svg className="text-gray-300 animate-spin mr-2" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
-                width="24" height="24">
-                <path
-                  d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.75011 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.20749 20.9022C6.66488 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80101 17.3837 6.66488 20.9022 5.20749C24.4206 3.75011 28.1917 3 32 3Z"
-                  fill="currentColor" />
-                <path
-                  d="M51 32H13M51 32L39.7071 39.7071M51 32L39.7071 24.2929"
-                  stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
-              </svg>
-            )}
-            Viết bình luận
-            </button>
-        )}
+        {
+          userId && (
+            <>
+                {showAddComment ? (
+                  <div className="mt-6">
+                  <textarea
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      className="w-full p-2 bg-gray-700 text-white rounded-md"
+                      placeholder="Viết bình luận của bạn..."
+                  />
+                  <button
+                      onClick={handleAddComment}
+                      className="mt-2 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
+                  >
+                      {editCommentId ? "Cập nhật bình luận" : "Gửi bình luận"}
+                  </button>
+                  <button
+                      onClick={() => { setShowAddComment(false); setEditCommentId(null); }}
+                      className="mt-2 ml-2 bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-400 transition"
+                  >
+                      Hủy
+                  </button>
+                  </div>
+              ) : (
+                  <button
+                  onClick={() => setShowAddComment(true)}
+                  className="flex mt-6 bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-500 transition"
+                  >
+                  {commentSendingLoad && (
+                    <svg className="text-gray-300 animate-spin mr-2" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg"
+                      width="24" height="24">
+                      <path
+                        d="M32 3C35.8083 3 39.5794 3.75011 43.0978 5.20749C46.6163 6.66488 49.8132 8.80101 52.5061 11.4939C55.199 14.1868 57.3351 17.3837 58.7925 20.9022C60.2499 24.4206 61 28.1917 61 32C61 35.8083 60.2499 39.5794 58.7925 43.0978C57.3351 46.6163 55.199 49.8132 52.5061 52.5061C49.8132 55.199 46.6163 57.3351 43.0978 58.7925C39.5794 60.2499 35.8083 61 32 61C28.1917 61 24.4206 60.2499 20.9022 58.7925C17.3837 57.3351 14.1868 55.199 11.4939 52.5061C8.801 49.8132 6.66487 46.6163 5.20749 43.0978C3.75011 39.5794 3 35.8083 3 32C3 28.1917 3.75011 24.4206 5.20749 20.9022C6.66488 17.3837 8.80101 14.1868 11.4939 11.4939C14.1868 8.80101 17.3837 6.66488 20.9022 5.20749C24.4206 3.75011 28.1917 3 32 3Z"
+                        fill="currentColor" />
+                      <path
+                        d="M51 32H13M51 32L39.7071 39.7071M51 32L39.7071 24.2929"
+                        stroke="currentColor" strokeWidth="4" strokeLinecap="round" />
+                    </svg>
+                  )}
+                  Viết bình luận
+                  </button>
+              )}
+            </>
+          )
+        }
         </div>
     );
 };

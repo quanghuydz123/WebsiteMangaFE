@@ -7,14 +7,22 @@ import apiHandler from "../../apis/apiHandler";
 import Loader from "../../components/User/Common/Loader";
 import BreadCrumb from "../../components/User/Common/BreadCrumb";
 import CommentSection from "../../components/User/Manga/CommentSession";
+import { useAuth } from "../../context/AuthContext";
 
 const MangaReadPage = () => {
+
     const { id } = useParams<{ id: string }>();
-    const userId = localStorage.getItem("userId");
+
+    const { userId } = useAuth();
+
     const navigate = useNavigate();
+
     const location = useLocation();
+
     const [manga, setManga] = useState<Manga>();
+
     const [chapters, setChapters] = useState<Chapter[]>([]);
+
     const [loading, setLoading] = useState(false);
 
     const [currentPage, setCurrentPage] = useState(() => {

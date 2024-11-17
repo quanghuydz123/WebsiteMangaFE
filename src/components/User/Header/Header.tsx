@@ -1,5 +1,4 @@
 import NavigationBar from "./NavigationBar";
-import SearchBar from "./SearchBar";
 import Logo from "../../../assets/images/logo.png"
 
 export default function Header() {

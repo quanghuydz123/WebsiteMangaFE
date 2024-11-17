@@ -7,6 +7,7 @@ import { Genre } from "../../../constrants/type";
 import { ENDPOINTS } from "../../../constrants/webInfo";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../../context/AuthContext";
+import { getRoles } from "@testing-library/react";
 
 export default function NavigationBar() {
 
@@ -101,6 +102,14 @@ export default function NavigationBar() {
                                                 Profile
                                             </a>
                                         </li>
+                                        {localStorage.getItem("role")=="66f18ac5ab25c97ba8d69eff" &&(<li >
+                                            <a 
+                                                href="/admin" 
+                                                className="block px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"
+                                            >
+                                                Quản lý 
+                                            </a>
+                                        </li>)}
                                         <li>
                                             <button 
                                                 className="block w-full text-left px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"

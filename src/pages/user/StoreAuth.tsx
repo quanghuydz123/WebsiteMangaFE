@@ -1,7 +1,11 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
 
 const StoreAuth = () => {
+
+    const { setAuthInfo } = useAuth();
+
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -16,21 +20,10 @@ const StoreAuth = () => {
                 const user = JSON.parse(decodeURIComponent(userParam));
                 
                 // Extract the necessary fields
-                const { _id, email, thumbnail } = user;
+                const { _id, email, thumbnail, role } = user;
 
                 // Store in localStorage
-                localStorage.setItem("userId", _id);
-                localStorage.setItem("userEmail", email);
-                localStorage.setItem("userAvatar", thumbnail);
-            } catch (error) {
-                console.error("Failed to parse user data:", error);
-            }
-        }
-
-        if (tokenParam) {
-            try {
-                // Store in localStorage
-                localStorage.setItem("token", tokenParam);
+                setAuthInfo(_id, email, thumbnail, tokenParam as string, role)
             } catch (error) {
                 console.error("Failed to parse user data:", error);
             }

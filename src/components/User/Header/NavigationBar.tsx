@@ -6,12 +6,20 @@ import apiHandler from "../../../apis/apiHandler";
 import { Genre } from "../../../constrants/type";
 import { ENDPOINTS } from "../../../constrants/webInfo";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../../context/AuthContext";
 
 export default function NavigationBar() {
+
     const [genres, setGenres] = useState<Genre[]>([]);
+
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
     const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
+
+    const { userEmail, userAvatar, clearAuthInfo } = useAuth();
+
     const limit = 999; // Items per page
+
     const nav = useNavigate();
 
     // Fetch manga list based on current page
@@ -33,16 +41,9 @@ export default function NavigationBar() {
         fetchGenreList();
     }, []);
 
-    // Get user information from localStorage
-    const userEmail = localStorage.getItem("userEmail");
-    const userAvatar = localStorage.getItem("userAvatar");
-
     // Handle logout
     const handleLogout = () => {
-        localStorage.removeItem("userEmail");
-        localStorage.removeItem("userAvatar");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("token");
+        clearAuthInfo();
     };
 
     return (
@@ -59,7 +60,7 @@ export default function NavigationBar() {
                 {/* Dropdown Menu */}
                 {isDropdownOpen && (
                     <div className="absolute z-10 top-6 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-64 max-h-80 overflow-y-scroll">
-                        <ul className="py-2 text-lg">
+                        <ul className="z-10 py-2 text-lg">
                             {genres.map((genre) => (
                                 <li key={genre._id}>
                                     <a 
@@ -80,8 +81,7 @@ export default function NavigationBar() {
                     <div className="flex items-center">
                         <div 
                             className="relative flex items-center gap-2"
-                            onMouseEnter={() => setIsUserDropdownOpen(true)} // Open dropdown on hover
-                            onMouseLeave={() => setIsUserDropdownOpen(false)} // Close dropdown on mouse leave
+                            onClick={() => setIsUserDropdownOpen((prev) => !prev)} // Open dropdown on hover
                         >
                             <img 
                                 src={userAvatar} 
@@ -91,7 +91,7 @@ export default function NavigationBar() {
                             <span className="text-white">{userEmail}</span>
                             {/* User Dropdown Menu */}
                             {isUserDropdownOpen && (
-                                <div className="absolute top-[36px] z-10 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-40 mt-2">
+                                <div className="absolute top-[34px] z-10 bg-slate-800 divide-y divide-gray-100 rounded-lg shadow w-40 mt-2">
                                     <ul className="py-2 text-lg">
                                         <li>
                                             <a 

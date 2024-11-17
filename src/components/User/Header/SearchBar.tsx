@@ -34,7 +34,7 @@ export default function SearchBar() {
             try {
                 const result = await apiHandler.execute(
                     ENDPOINTS.MANGA_ENPOINT,
-                    `get-all?search=${searchValue}`,
+                    `get-all?searchValue=${searchValue}`,
                     null,
                     "get"
                 );

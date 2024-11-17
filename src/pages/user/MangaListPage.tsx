@@ -21,7 +21,7 @@ const MangaListPage = () => {
     const { genreId } = useParams<{ genreId: string }>();
     const [sortType, setSortType] = useState('');
 
-    const limit = 24; // Items per page
+    const limit = 8; // Items per page
 
     // Fetch manga list based on current page
     useEffect(() => {
@@ -77,7 +77,7 @@ const MangaListPage = () => {
                         <Loader />
                     ) : (
                         <>
-                            <div className="grid lg:grid-cols-8 md:grid-cols-4 sm:grid-cols-1 gap-x-4 gap-y-12">
+                            <div className="grid lg:grid-cols-4 md:grid-cols-2 sm:grid-cols-1 gap-x-4 gap-y-12">
                                 {mangaList.map((manga: Manga) => (
                                     <MangaCard item={manga} key={manga._id} />
                                 ))}

@@ -3,22 +3,38 @@ import { ENDPOINTS } from "../../../constrants/webInfo";
 import apiHandler from "../../../apis/apiHandler";
 import { Comment } from "../../../constrants/type";
 import defaultAvatar from "../../../assets/images/account.png";
+import Modal from "../Common/Modal";
 
 interface CommentSectionProps {
     mangaId: string | undefined;
 }
 
 const CommentSection = ({ mangaId }: CommentSectionProps) => {
+
     const [comments, setComments] = useState<Comment[]>([]);
+
     const [commentSendingLoad, setCommentSendingLoad] = useState(false);
+
     const [loading, setLoading] = useState(false);
+
     const [page, setPage] = useState(1);
+
     const [hasMore, setHasMore] = useState(true);
+
     const [error, setError] = useState<string | null>(null);
+
     const [showAddComment, setShowAddComment] = useState(false);
+
     const [newComment, setNewComment] = useState("");
+
     const [editCommentId, setEditCommentId] = useState<string | null>(null);
+
     const [editCommentText, setEditCommentText] = useState("");
+
+    const [modalVisible, setModalVisible] = useState(false);
+
+    const [modalContent, setModalContent] = useState("");
+
     const userId = localStorage.getItem("userId");
 
     const fetchComments = useCallback(async () => {
@@ -89,9 +105,10 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
 
       setNewComment("");
       setShowAddComment(false);
-      } catch (err) {
-        setError("Failed to add comment.");
-        console.log(err);
+      } catch (err: any) {
+        var errorMsg = JSON.parse(err.message)
+        setModalContent(errorMsg.message || "Lỗi không xác định.");
+        setModalVisible(true);
       } finally {
         setCommentSendingLoad(false);
       }
@@ -107,8 +124,10 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
         );
         setComments(comments.filter(comment => comment._id !== id));
       } catch (err) {
-        setError("Failed to delete comment.");
+        setError("Failed to update comment.");
         console.log(err);
+      } finally {
+        setCommentSendingLoad(false);
       }
     };
 
@@ -126,14 +145,24 @@ const CommentSection = ({ mangaId }: CommentSectionProps) => {
         ));
         setEditCommentId(null);
         setEditCommentText("");
-      } catch (err) {
-        setError("Failed to update comment.");
-        console.log(err);
+      } catch (err: any) {
+        var errorMsg = JSON.parse(err.message)
+        setModalContent(errorMsg.message || "Lỗi không xác định.");
+        setModalVisible(true);
+      } finally {
+        setCommentSendingLoad(false);
       }
     };
 
     return (
-        <div className="mt-8 w-full bg-gray-800 p-6 rounded-md shadow-lg">
+      <div className="mt-8 w-full bg-gray-800 p-6 rounded-md shadow-lg">
+        {modalVisible && (
+          <Modal
+            title="Đã xảy ra lỗi"
+            content={modalContent}
+            onConfirm={() => setModalVisible(false)}
+          />
+        )}
         <h3 className="text-2xl font-bold text-white mb-2">Bình luận</h3>
         {error && <p className="text-red-500">{error}</p>}
         <div className="space-y-6">

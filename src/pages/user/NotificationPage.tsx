@@ -19,7 +19,8 @@ const NotificationPage = () => {
         null,
         "get"
       );
-      result.data.notifications && setNotifications(result.data.notifications);
+
+      result.data && setNotifications(result.data);
     } catch (err) {
       console.error("Error fetching notifications:", err);
     } finally {
@@ -54,35 +55,66 @@ const NotificationPage = () => {
 
   return (
     <DefaultLayoutUser>
-      <div className="min-h-screen p-4">
+      <div className="min-h-screen p-6">
         {loading ? (
           <Loader />
         ) : (
           <>
-            <h1 className="text-2xl font-bold mb-4">Thông báo</h1>
+            <h1 className="text-3xl font-bold text-gray-100 mb-6">Thông báo</h1>
             {notifications.length ? (
               <ul className="space-y-4">
-                {notifications.map((notification) => (
-                  <li
-                    key={notification._id}
-                    className={`p-4 border rounded-md cursor-pointer ${
-                      notification.isRead
-                        ? "bg-gray-100 text-gray-500"
-                        : "bg-white text-black font-bold"
-                    }`}
-                    onClick={() =>
-                      !notification.isRead && handleMarkAsRead(notification._id)
-                    }
-                  >
-                    {notification.content}
-                    {!notification.isRead && (
-                      <span className="ml-2 text-blue-500">Mới</span>
-                    )}
-                  </li>
-                ))}
+                {notifications.map((notification) => {
+                  // Kiểm tra nếu content chứa "||"
+                  let imageUrl, text;
+                  if (notification.content.includes("||")) {
+                    [imageUrl, text] = notification.content.split("||");
+                  } else {
+                    text = notification.content; // Nếu không có "||", toàn bộ chuỗi là text
+                  }
+
+                  return (
+                    <li
+                      key={notification._id}
+                      className={`flex items-center p-4 rounded-lg shadow-md transition transform hover:scale-[1.02] cursor-pointer ${
+                        notification.isRead
+                          ? "bg-gray-100 text-gray-500"
+                          : "bg-white text-gray-800 border-l-4 border-blue-500"
+                      }`}
+                      onClick={() =>
+                        !notification.isRead && handleMarkAsRead(notification._id)
+                      }
+                    >
+                      <div className="flex-shrink-0">
+                        {notification.isRead ? (
+                          <i className="fa-solid fa-check fa-bell text-2x h-6 w-6 text-blue-500"></i>
+                        ) : (
+                          <i className="fa-regular fa-bell text-2x h-6 w-6 text-blue-500"></i>
+                        )}
+                      </div>
+                      <div className="ml-4">
+                        {/* Hiển thị ảnh nếu có imageUrl */}
+                        {imageUrl && (
+                          <img
+                            src={imageUrl.trim()}
+                            alt="Notification"
+                            className="w-16 h-16 object-cover rounded-md mb-2"
+                          />
+                        )}
+                        {/* Hiển thị nội dung văn bản */}
+                        <p className="text-lg font-medium">{text?.trim()}</p>
+                        <p className="text-sm text-gray-400 mt-1">
+                          {new Date(notification.createdAt as Date).toLocaleString()}
+                        </p>
+                      </div>
+                    </li>
+                  );
+                })}
               </ul>
             ) : (
-              <p className="text-gray-500">Bạn không có thông báo nào.</p>
+              <div className="text-center py-12">
+                <i className="fa-regular fa-bell h-16 w-16 text-gray-300 mx-auto" />
+                <p className="text-gray-500 mt-4">Bạn không có thông báo nào.</p>
+              </div>
             )}
           </>
         )}

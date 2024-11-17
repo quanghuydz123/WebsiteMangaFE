@@ -134,7 +134,7 @@ const MangaDetailPage = () => {
         }
 
         fetchMangaDetail()
-    }, [id])
+    }, [id, userId])
 
     return (
         <DefaultLayoutUser>
@@ -156,7 +156,7 @@ const MangaDetailPage = () => {
                             <div className="flex gap-10 min-h-screen">
                                 {/* Managa Cover Image */}
                                 <div>
-                                    <img className="min-w-[300px] max-w-[400px]" src={manga?.imageUrl} alt="cover image" />
+                                    <img className="lg:min-w-[300px] max-w-[400px]" src={manga?.imageUrl} alt="cover image" />
                                 </div>
                                 <div className="p-4 w-full">
                                     <h2 className="text-3xl font-bold mb-4">{manga?.name}</h2>
@@ -172,7 +172,7 @@ const MangaDetailPage = () => {
                                         ))}
                                     </div>
                                     {/* Details */}
-                                    <div className="flex gap-10 mb-4">
+                                    <div className="lg:flex gap-10 mb-4">
                                         <div>
                                             <p className="font-bold mb-1">Chapters</p>
                                             <p className="font-thin">{chapters?.length}</p>

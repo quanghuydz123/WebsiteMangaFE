@@ -91,7 +91,7 @@ const ChapterTable: React.FC = () => {
   const deleteChapter = async (chapterId: string, chapterIsdelete: boolean) => {
     try {
       
-      const response = await ChapterApi.deleteChapter(chapterIsdelete!, chapterId);
+      const response = await ChapterApi.deleteChapter(!chapterIsdelete, chapterId);
       console.log('Chapter deleted successfully:', response);
       setSelectedChapter(emptyData);
       fetchChapters();

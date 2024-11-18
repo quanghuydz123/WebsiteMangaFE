@@ -35,6 +35,13 @@ export interface User {
   userName: string;
   email: string;
   isDeleted: boolean;
+  role:   Role;
+}
+export interface Role {
+  
+  name: string;
+
+  
 }
 export interface UserDTO {
   _id: string;

@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     setToken(role);
     setToken(token);
 
-    role.slice(role.length - 2, role.length) === "fe" ? nav('/home') : nav('/admin');
+    nav('/home');
   };
 
   const clearAuthInfo = () => {

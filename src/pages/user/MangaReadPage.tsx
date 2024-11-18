@@ -165,7 +165,7 @@ const MangaReadPage = () => {
                         </div>
 
                         {/* Comment Section */}
-                        <CommentSection mangaId={id} />
+                        <CommentSection mangaId={id as string} />
                     </>
                 )}
             </div>

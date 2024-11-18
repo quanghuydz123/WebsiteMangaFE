@@ -272,7 +272,9 @@ const MangaDetailPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <CommentSection mangaId={id} />
+                            {manga && chapters && isFollowing && rating &&(
+                                <CommentSection mangaId={id as string} />
+                            )}
                         </>
                     )
                 }

@@ -272,7 +272,7 @@ const MangaDetailPage = () => {
                                     </div>
                                 </div>
                             </div>
-                            <CommentSection mangaId={id} />
+                            <CommentSection mangaId={id as string} />
                         </>
                     )
                 }

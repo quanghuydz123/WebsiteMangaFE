@@ -8,7 +8,7 @@ import { useManga } from './MangaHook';
 
 export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: number) => Promise<void>
  }> = (
-    { openModal, setCurrentSelectedManga, currentPage, handlePageChange, totalPages, rows, fetchManga }
+    { openModal, setCurrentSelectedManga, currentPage, handlePageChange, totalPages, rows, fetchManga, setCurrentPage }
 ) => {
 
 
@@ -19,7 +19,8 @@ export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: n
         try {
             await MangaApi.handleDeleteManga(_id, setRow);
             console.log(`Deleted manga with ID: ${_id}`);
-            fetchManga(0); 
+            fetchManga(currentPage); 
+            
             
         } catch (error) {
             console.error("Error deleting manga:", error);

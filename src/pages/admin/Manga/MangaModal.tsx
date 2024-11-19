@@ -78,11 +78,11 @@ const MangaModal: React.FC<MangaModalProps> = ({
                         >
                             &times;
                         </button>
-                        <h2 className="text-lg font-bold mb-4">
+                        <h2 className="text-lg text-black font-bold mb-4">
                             {currentSelectedManga._id ? 'Edit Manga' : 'Add Manga'}
                         </h2>
                         <div>
-                            <label className="block mb-2">Name:</label>
+                            <label className="block mb-2 text-black">Name:</label>
                             <input
                                 type="text"
                                 value={currentSelectedManga.name}
@@ -92,7 +92,7 @@ const MangaModal: React.FC<MangaModalProps> = ({
                             />
                         </div>
                         <div>
-                            <label className="block mb-2">Image URL:</label>
+                            <label className="block mb-2 text-black">Image URL:</label>
                             <input
                                 type="text"
                                 value={currentSelectedManga.imageUrl}
@@ -102,7 +102,7 @@ const MangaModal: React.FC<MangaModalProps> = ({
                             />
                         </div>
                         <div>
-                            <label className="block mb-2">Summary:</label>
+                            <label className="block mb-2 text-black">Summary:</label>
                             <textarea
                                 value={currentSelectedManga.summary}
                                 onChange={(e) => setCurrentSelectedManga({ ...currentSelectedManga, summary: e.target.value })}
@@ -111,7 +111,7 @@ const MangaModal: React.FC<MangaModalProps> = ({
                             />
                         </div>
                         <div>
-                            <label className="block mb-2">Genres:</label>
+                            <label className="block mb-2 text-black">Genres:</label>
                             <select
                                 multiple
                                 value={currentSelectedManga.genres.map((genre) => genre._id)}

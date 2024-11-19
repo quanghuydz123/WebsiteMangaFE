@@ -50,6 +50,7 @@ export const useManga = () => {
             });
             const { docs, totalPages } = response.data;
             setRows(docs);
+            
             setTotalPages(totalPages);
         } catch (error) {
             console.error('Error fetching manga:', error);
@@ -73,7 +74,8 @@ export const useManga = () => {
         currentPage,
         totalPages,
         rows,
-        fetchManga
+        fetchManga,
+        setCurrentPage
 
     }
 }

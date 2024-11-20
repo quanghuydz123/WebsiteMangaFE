@@ -10,6 +10,7 @@ interface MangaModalProps {
     currentSelectedManga: SelectedManga;
     setCurrentSelectedManga: React.Dispatch<React.SetStateAction<SelectedManga>>;
     fetchManga: (page: number) => Promise<void>
+    currentPage: number
 }
 
 const MangaModal: React.FC<MangaModalProps> = ({
@@ -17,6 +18,7 @@ const MangaModal: React.FC<MangaModalProps> = ({
     closeModal,
     currentSelectedManga,
     setCurrentSelectedManga,
+    currentPage,
     fetchManga
 }) => {
     const [genres, setGenres] = useState<GenrePair[]>([]);
@@ -60,7 +62,7 @@ const MangaModal: React.FC<MangaModalProps> = ({
         } catch (error: any) {
             console.error('Error saving manga:', error.response?.data || error.message);
         } finally {
-            fetchManga(0);
+            fetchManga(currentPage);
             closeModal();
         }
     };

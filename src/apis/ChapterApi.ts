@@ -41,7 +41,9 @@ async function getPaginatedChapters(params: ChapterQueryParams): Promise<Base<Ch
 async function addChapter(chapterTitle: string, mangaId: string) {
     if (!mangaId) {
         throw new Error("mangaId is required to fetch chapters.");
+        
     }
+    console.log("chapter",chapterTitle)
     const url = `${CHAPTER_API_URL}/append`;
     const response = await axios.post<any>(url,
         {
@@ -49,6 +51,7 @@ async function addChapter(chapterTitle: string, mangaId: string) {
             manga: mangaId
         }
     )
+    
     return response;
 }
 async function updateChapter(chapterTitle: string, chapterId: string) {

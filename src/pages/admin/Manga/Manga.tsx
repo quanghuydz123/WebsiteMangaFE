@@ -32,6 +32,7 @@ const StoryboardTable: React.FC = () => {
           closeModal={closeModal}
           currentSelectedManga={currentSelectedManga}
           setCurrentSelectedManga={setCurrentSelectedManga}
+          currentPage={currentPage}
           fetchManga={fetchManga}
         />
       )}

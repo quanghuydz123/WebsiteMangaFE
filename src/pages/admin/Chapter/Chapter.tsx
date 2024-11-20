@@ -121,7 +121,7 @@ const ChapterTable: React.FC = () => {
         
         <button
           type="button"
-          onClick={() => isEditing  ? updateChapter(selectedChapter._id) : addChapter}
+          onClick={() => isEditing  ? updateChapter(selectedChapter._id) : addChapter()}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           {isEditing ? 'Update Chapter' : 'Add Chapter'}

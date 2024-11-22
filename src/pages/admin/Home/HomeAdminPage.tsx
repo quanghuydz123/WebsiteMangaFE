@@ -25,8 +25,8 @@ const AdminHome = () => {
     };
 
     useEffect(() => {
-        if(role) {
-            role.slice(role.length - 2, role.length) === "fe"  && nav('/')
+        if(role == null || role.slice(role.length - 2, role.length) !== "ff") {
+            nav('/')
         }
     }, [role])
 

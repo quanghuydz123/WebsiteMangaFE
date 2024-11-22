@@ -25,7 +25,7 @@ const CustomXAxisTick = (props: any) => {
   const words = text.split(' ');
   const lineLimit = 10;
   let formattedText: string[] = [''];
-
+  
   words.forEach((word: string) => {
     const currentLineIndex = formattedText.length - 1;
     if (formattedText[currentLineIndex].length + word.length <= lineLimit) {
@@ -89,21 +89,19 @@ const CustomBarChart = ({ variants }: { variants: any }) => {
       <ResponsiveContainer width="100%" height="100%">
         <BarChart data={topData}>
         <XAxis 
-        dataKey="name"  
-        tick={ { fill: 'orange' }} 
-      />
-      <YAxis 
-        domain={yAxisDomain} 
-        width={80} 
-        tickFormatter={(value) => {
-          if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
-          if (value >= 1e3) return `${(value / 1e3).toFixed(1)}k`;
-          return value;
-        }}
-        tick={{ fill: 'orange' }} 
-      />
-
-
+          dataKey="name"  
+          tick={ { fill: 'orange' }} 
+        />
+        <YAxis 
+          domain={yAxisDomain} 
+          width={80} 
+          tickFormatter={(value) => {
+            if (value >= 1e6) return `${(value / 1e6).toFixed(1)}M`;
+            if (value >= 1e3) return `${(value / 1e3).toFixed(1)}k`;
+            return value;
+          }}
+          tick={{ fill: 'orange' }} 
+        />
           <Tooltip content={<CustomTooltip />} />
           <Bar dataKey="views" fill="#14b8a6">
             <LabelList

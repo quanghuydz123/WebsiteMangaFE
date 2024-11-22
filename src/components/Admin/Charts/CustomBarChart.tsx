@@ -25,7 +25,7 @@ const CustomXAxisTick = (props: any) => {
   const words = text.split(' ');
   const lineLimit = 10;
   let formattedText: string[] = [''];
-
+  
   words.forEach((word: string) => {
     const currentLineIndex = formattedText.length - 1;
     if (formattedText[currentLineIndex].length + word.length <= lineLimit) {

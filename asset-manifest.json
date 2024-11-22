@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/WebsiteMangaFE/static/css/main.d7d90da3.css",
-    "main.js": "/WebsiteMangaFE/static/js/main.d1bde132.js",
+    "main.js": "/WebsiteMangaFE/static/js/main.3ed2e8f3.js",
     "static/js/453.5242fa5e.chunk.js": "/WebsiteMangaFE/static/js/453.5242fa5e.chunk.js",
     "static/media/background.jpg": "/WebsiteMangaFE/static/media/background.61206e7a291b437595f8.jpg",
     "index.html": "/WebsiteMangaFE/index.html",
     "main.d7d90da3.css.map": "/WebsiteMangaFE/static/css/main.d7d90da3.css.map",
-    "main.d1bde132.js.map": "/WebsiteMangaFE/static/js/main.d1bde132.js.map",
+    "main.3ed2e8f3.js.map": "/WebsiteMangaFE/static/js/main.3ed2e8f3.js.map",
     "453.5242fa5e.chunk.js.map": "/WebsiteMangaFE/static/js/453.5242fa5e.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.d7d90da3.css",
-    "static/js/main.d1bde132.js"
+    "static/js/main.3ed2e8f3.js"
   ]
 }

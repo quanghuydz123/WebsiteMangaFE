@@ -25,10 +25,11 @@ const AdminHome = () => {
     };
 
     useEffect(() => {
-        if(role == null || role.slice(role.length - 2, role.length) !== "ff") {
-            nav('/')
+        const savedRole = role || localStorage.getItem('role'); // Lấy role từ localStorage nếu cần
+        if (!savedRole || savedRole.slice(savedRole.length - 2) !== "ff") {
+            nav('/');
         }
-    }, [role])
+    }, [role]);
 
     return (
         <div className={`flex font-Montserrat bg-slate-700 ${darkMode ? "dark" : ""}`}>

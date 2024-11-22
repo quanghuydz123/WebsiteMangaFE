@@ -11,7 +11,10 @@ const LoginPage = () => {
         <DefaultLayoutUser>
             <div
                 className="text-white h-[100vh] flex justify-center items-center bg-cover"
-                style={{ backgroundImage: `url(${backgroundPictures})` }}
+                style={ {  backgroundImage: `linear-gradient(to bottom, rgba(20, 26, 49, 0) 0%, #141a31 70%), url(${backgroundPictures})`,
+                animation: 'image-loop 40s linear infinite',
+
+            }}
             >
                 <div className="w-[400px] bg-gradient-to-br from-white/10 to-white/20 backdrop-blur-xl rounded-2xl p-10 shadow-2xl shadow-black text-center">
                     <h1 className="text-4xl font-semibold mb-8">Đăng nhập</h1>
@@ -24,6 +27,15 @@ const LoginPage = () => {
                     </button>
                 </div>
             </div>
+            <style>
+                {`
+                    @keyframes image-loop {
+                        0% { background-position: 0% 50%; }
+                        50% { background-position: 100% 50%; }
+                        100% { background-position: 0% 50%; }
+                    }
+                `}
+            </style>
         </DefaultLayoutUser>
     );
 }

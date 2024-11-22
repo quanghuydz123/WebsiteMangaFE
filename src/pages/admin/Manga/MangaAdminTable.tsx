@@ -71,12 +71,16 @@ export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: n
                                 {manga.genreName}
                             </td>
                             <td className="px-4 py-3">
-                                <button
-                                    onClick={() => window.open(`/admin/Truyện tranh/${manga._id}/Chương`, '_blank')}
-                                    className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
-                                >
-                                    Chi tiết
-                                </button>
+                            <button
+                                onClick={() => {
+                                    const chapterUrl= window.location.href + `/${manga._id}/Chương`
+                                    window.open(chapterUrl, '_blank')
+                                }}
+                                className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
+                            >
+                                Chi tiết
+                            </button>
+
                             </td>
                             <td className="px-4 py-3">
                                 <button

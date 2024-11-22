@@ -56,7 +56,8 @@ const ChapterTable: React.FC = () => {
 
   const viewImages = (id: string) => {
     console.log('Redirecting to episode management page for storyboard:', id);
-    window.open(`/admin/Chương/${id}/Ảnh`, '_blank');
+    window.open(`https://quanghuydz123.github.io/WebsiteMangaFE/#/admin/Chương/${id}/Ảnh`, '_blank');
+    
   };
 
   const addChapter = async () => {

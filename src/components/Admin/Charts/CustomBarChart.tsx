@@ -90,7 +90,7 @@ const CustomBarChart = ({ variants }: { variants: any }) => {
         <BarChart data={topData}>
         <XAxis 
         dataKey="name"  
-        tick={ { fill: 'orange' }} 
+        tick={ { fill: 'orange'}} 
       />
       <YAxis 
         domain={yAxisDomain} 

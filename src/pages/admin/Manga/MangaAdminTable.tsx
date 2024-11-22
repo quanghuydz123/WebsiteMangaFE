@@ -4,11 +4,12 @@ import Pagination from "../../../components/Admin/Pagination/Pagination"
 import MangaApi from "../../../apis/MangaApi";
 import { DTOManga, SelectedManga } from "../../../constrants/apiResponse";
 import { useManga } from './MangaHook';
+import { motion } from "framer-motion";
 
 
 export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: number) => Promise<void>
  }> = (
-    { openModal, setCurrentSelectedManga, currentPage, handlePageChange, totalPages, rows, fetchManga }
+    { openModal, setCurrentSelectedManga, currentPage, handlePageChange, totalPages, rows, fetchManga, setCurrentPage }
 ) => {
 
 
@@ -19,7 +20,8 @@ export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: n
         try {
             await MangaApi.handleDeleteManga(_id, setRow);
             console.log(`Deleted manga with ID: ${_id}`);
-            fetchManga(0); 
+            fetchManga(currentPage); 
+            
             
         } catch (error) {
             console.error("Error deleting manga:", error);
@@ -28,7 +30,9 @@ export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: n
 
     return (
         <React.Fragment>
-            <table className="min-w-full table-fixed">
+            <motion.div className="flex-1 rounded-xl bg-white p-5 dark:bg-slate-600 dark:text-slate-300">
+        <div className="overflow-hidden">
+          <table className="min-w-full table-fixed">
                 <thead>
                     <tr className="text-sm md:text-base">
                         {/* <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">ID</th> */}
@@ -108,6 +112,8 @@ export const MangaAdminTable: React.FC<MangaTableProps & {  fetchManga: (page: n
                     ))}
                 </tbody>
             </table>
+            </div>
+      </motion.div>
             <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </React.Fragment>
     );

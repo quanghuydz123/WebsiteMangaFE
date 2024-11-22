@@ -19,7 +19,8 @@ const StoryboardTable: React.FC = () => {
     handlePageChange,
     rows,
     totalPages,
-    fetchManga
+    fetchManga,
+    setCurrentPage
   } = useManga();
 
   return (
@@ -31,6 +32,7 @@ const StoryboardTable: React.FC = () => {
           closeModal={closeModal}
           currentSelectedManga={currentSelectedManga}
           setCurrentSelectedManga={setCurrentSelectedManga}
+          currentPage={currentPage}
           fetchManga={fetchManga}
         />
       )}
@@ -41,7 +43,8 @@ const StoryboardTable: React.FC = () => {
           </button>
         </div>
       </div>
-      <MangaAdminTable rows={rows} openModal={openModal} setCurrentSelectedManga={setCurrentSelectedManga} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}  fetchManga={fetchManga}/>
+      <MangaAdminTable rows={rows} openModal={openModal} setCurrentSelectedManga={setCurrentSelectedManga} currentPage={currentPage} totalPages={totalPages} handlePageChange={handlePageChange}  fetchManga={fetchManga}
+      setCurrentPage={setCurrentPage}/>
     </motion.div>
   )
 }

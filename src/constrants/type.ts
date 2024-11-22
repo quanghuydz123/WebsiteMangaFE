@@ -97,5 +97,6 @@ export interface MangaTableProps {
     currentPage: number,
     totalPages: number,
     handlePageChange: (page: number) => void,
-    rows: DTOManga[]
+    rows: DTOManga[],
+    setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }

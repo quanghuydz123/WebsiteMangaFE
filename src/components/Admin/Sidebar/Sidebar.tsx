@@ -58,7 +58,7 @@ const Sidebar = ({ isOpen, toggleSidebar, setIsOpen }: {isOpen:any, toggleSideba
 
   return (
     <div className={`fixed left-0 top-0 h-full bg-slate-800 text-white transition-all flex flex-col duration-300
-    dark: bg 
+    dark: z-50  
     ${isOpen ? "w-44" : "w-16 items-center"}`}>
       {/* sidebar logo */}
       <div className="flex items-center justify-center py-4">

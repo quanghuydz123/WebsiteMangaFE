@@ -21,7 +21,7 @@ const MainContent = ({ isOpen, toggleDarkMode, darkMode }: {isOpen: boolean, tog
           <Header darkMode={darkMode} toggleDarkMode={toggleDarkMode} />
               <Routes>
                   <Route path='/' element={<User />}/>
-                  <Route path='Thống kê' element={<Analysis />} />
+                  <Route path='Thống kê' element={<Analysis isSidebarOpen={false} />} />
                   <Route path='Người dùng' element={<User />} />
                   <Route path='Truyện tranh' element={<Manga />} />
                   <Route path='Truyện tranh/:mangaID/Chương' element={<Chapter />} />

@@ -27,9 +27,14 @@ const containerVariants = {
       },
     },
   };
-const Analysis = () => {
+const Analysis = ({ isSidebarOpen }: { isSidebarOpen: boolean }) => {
   return (
     <>
+      <div
+      className={`transition-all duration-300 ${
+        isSidebarOpen ? "ml-44" : "ml-16"
+      }`}
+    >
         <Card/>
         <motion.div className="translate-all flex flex-col gap-4 p-4 
         duration-300 sm:px-7 sm:py-1 xl:flex-row"
@@ -57,7 +62,7 @@ const Analysis = () => {
             <Table variants={itemVariants}/>
             {/* <Activity variants={itemVariants}/> */}
         </motion.div>
-        
+        </div>
     </>
   );
 }

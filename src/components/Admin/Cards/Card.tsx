@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
-import CardItem from "./CardItem";
 import { motion } from "framer-motion";
-import { FaUserPlus, FaShoppingCart, FaBook } from 'react-icons/fa';
+import { useEffect, useState } from "react";
+import { FaBook, FaUserPlus } from 'react-icons/fa';
 import AnalysisApi from "../../../apis/AnalysisApi";
+import CardItem from "./CardItem";
 
 const Cards = () => {
   const [totalMangas, setTotalMangas] = useState<string>("0");

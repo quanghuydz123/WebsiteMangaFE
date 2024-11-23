@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import ChapterApi from "../../../apis/ChapterApi";
 import Pagination from '../../../components/Admin/Pagination/Pagination';
 import { Chapter } from '../../../constrants/apiResponse';
@@ -15,7 +15,7 @@ const emptyData: Chapter = {
 const ChapterTable: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const { mangaID = "" } = useParams<{ mangaID: string }>();
-  
+
   const [rows, setRows] = useState<Chapter[]>([]);
   const [totalPages, setTotalPages] = useState(1);
   const [selectedChapter, setSelectedChapter] = useState<Chapter>(emptyData);
@@ -23,7 +23,7 @@ const ChapterTable: React.FC = () => {
 
   // Fetch chapters data
   useEffect(() => {
-    if (mangaID ) {
+    if (mangaID) {
       fetchChapters();
     }
   }, [currentPage, mangaID]);
@@ -50,28 +50,28 @@ const ChapterTable: React.FC = () => {
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const {  value } = e.target;
+    const { value } = e.target;
     setSelectedChapter((prev) => ({ ...prev, title: value }));
   };
 
   const viewImages = (id: string) => {
-    console.log('Redirecting to episode management page for storyboard:', id);
-    window.open(`https://quanghuydz123.github.io/WebsiteMangaFE/#/admin/Chương/${id}/Ảnh`, '_blank');
-    
+    console.log('Redirecting to episode management page for storyboard:', window.location.hash);
+    // window.open(`${window.location.}/admin/Chương/${id}/Ảnh`, '_blank');
+
   };
 
   const addChapter = async () => {
     try {
       const response = await ChapterApi.addChapter(selectedChapter.title, mangaID);
-        
+
       console.log('Chapter added successfully:', response);
-      
+
     } catch (error) {
       console.error('Error adding chapter:', error);
     }
-    if (mangaID ) {
+    if (mangaID) {
       fetchChapters();
-      
+
     }
   };
   const updateChapter = async (chapterId: string) => {
@@ -91,7 +91,7 @@ const ChapterTable: React.FC = () => {
   };
   const deleteChapter = async (chapterId: string, chapterIsdelete: boolean) => {
     try {
-      
+
       const response = await ChapterApi.deleteChapter(!chapterIsdelete, chapterId);
       console.log('Chapter deleted successfully:', response);
       setSelectedChapter(emptyData);
@@ -100,7 +100,7 @@ const ChapterTable: React.FC = () => {
       console.error('Error updating chapter:', error);
     }
   };
- 
+
 
   return (
     <div className="container mx-auto p-4">
@@ -118,11 +118,11 @@ const ChapterTable: React.FC = () => {
             placeholder="Enter chapter name"
           />
         </div>
-        
-        
+
+
         <button
           type="button"
-          onClick={() => isEditing  ? updateChapter(selectedChapter._id) : addChapter()}
+          onClick={() => isEditing ? updateChapter(selectedChapter._id) : addChapter()}
           className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
         >
           {isEditing ? 'Update Chapter' : 'Add Chapter'}
@@ -151,10 +151,11 @@ const ChapterTable: React.FC = () => {
                   <td className="px-4 py-3 font-medium">{formatDateToString(chapter.updatedAt ?? new Date())}</td>
                   <td className="px-4 py-3">
                     <button
-                      onClick={() => viewImages(chapter._id ?? "")}
                       className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"
                     >
-                      Chi tiết ảnh
+                      <Link to={`/admin/Chương/${chapter._id}/Ảnh`} target="_blank" rel="noopener noreferrer">
+                        Chi tiết ảnh
+                      </Link>
                     </button>
                   </td>
                   <td className="px-4 py-3 space-y-2 sm:space-y-0 sm:space-x-2">
@@ -167,7 +168,7 @@ const ChapterTable: React.FC = () => {
                           Sửa
                         </button>
                         <button
-                          onClick={() => deleteChapter(chapter._id,chapter.isDeleted)}
+                          onClick={() => deleteChapter(chapter._id, chapter.isDeleted)}
                           className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 w-full sm:w-auto"
                         >
                           Xóa
@@ -175,7 +176,7 @@ const ChapterTable: React.FC = () => {
                       </>
                     ) : (
                       <button
-                        onClick={() => deleteChapter(chapter._id,chapter.isDeleted)}
+                        onClick={() => deleteChapter(chapter._id, chapter.isDeleted)}
                         className="bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600 w-full sm:w-auto"
                       >
                         Khôi phục

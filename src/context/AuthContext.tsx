@@ -40,12 +40,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     fetchAuth()
   }, []);
 
-  const setAuthInfo = async (id: string, email: string, avatar: string, token: string, role: string) => {
-    await localStorage.setItem("userId", id);
-    await localStorage.setItem("userEmail", email);
-    await localStorage.setItem("userAvatar", avatar);
-    await localStorage.setItem("role", role);
-    await localStorage.setItem("token", token);
+  const setAuthInfo = (id: string, email: string, avatar: string, token: string, role: string) => {
+    localStorage.setItem("userId", id);
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userAvatar", avatar);
+    localStorage.setItem("role", role);
+    localStorage.setItem("token", token);
 
     setUserId(id);
     setUserEmail(email);

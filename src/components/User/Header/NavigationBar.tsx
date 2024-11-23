@@ -100,7 +100,7 @@ export default function NavigationBar() {
                                                 Profile
                                             </Link>
                                         </li>
-                                        {localStorage.getItem("role")=="66f18ac5ab25c97ba8d69eff" &&(<li >
+                                        {localStorage.getItem("role")==="66f18ac5ab25c97ba8d69eff" &&(<li >
                                             <Link 
                                                 to="/admin" 
                                                 className="block px-4 py-2 text-white hover:bg-gray-100 hover:text-slate-800"

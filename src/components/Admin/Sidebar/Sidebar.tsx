@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react';
+import { FaBook, FaChartLine, FaListAlt, FaSignOutAlt, FaUser } from 'react-icons/fa';
 import { LuLayoutDashboard } from "react-icons/lu";
-import MenuItem from "./MenuItem";
 import { RiArrowLeftWideFill, RiArrowRightWideFill } from "react-icons/ri";
-import { FaUser, FaBook, FaClipboardList, FaTachometerAlt, FaChartLine, FaCog, FaSignOutAlt, FaTags, FaListAlt } from 'react-icons/fa';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext';
+import MenuItem from "./MenuItem";
 const menuItems = [
   {
     icon: FaUser, 

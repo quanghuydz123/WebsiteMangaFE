@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Base, GenreResponse, GetGenreResponse, MangaDoc, MangaResponse, MangaResponse2, MangaResponseData } from "../constrants/apiResponse";
+import { Base, MangaResponse, MangaResponse2 } from "../constrants/apiResponse";
 import { API_BASE_URL } from "./apiService";
 
 interface PaginationParams {

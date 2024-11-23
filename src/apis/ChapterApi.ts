@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { Base, Chapter, ChapterData, ImageData } from '../constrants/apiResponse';
+import axios from 'axios';
+import { Base, ChapterData } from '../constrants/apiResponse';
 import { API_BASE_URL } from './apiService';
 
 const CHAPTER_API_URL = `${API_BASE_URL}/chapters`;

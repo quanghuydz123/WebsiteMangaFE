@@ -1,38 +1,6 @@
-import axios, { AxiosResponse } from 'axios';
-import { Base, Chapter, ChapterData, ImageData } from '../constrants/apiResponse';
+import axios from 'axios';
+import { Base, ImageData } from '../constrants/apiResponse';
 import { API_BASE_URL } from './apiService';
-
-const CHAPTER_API_URL = `${API_BASE_URL}/chapters`;
-
-// Define the query parameters for fetching paginated chapters
-interface ChapterQueryParams {
-    chapterId: string;
-    
-}
-
-
-
-async function updateChapter(chapterTitle: string, chapterId: string) {
-    const url = `${CHAPTER_API_URL}/update?id=${chapterId}`;
-    const response = await axios.put<any>(url,
-        {
-            title: chapterTitle,
-        }
-    )
-    console.log ("update", url);
-    return response;
-}
-async function deleteChapter(chapterIsdeleted: boolean, chapterId: string) {
-    const url = `${CHAPTER_API_URL}/update?id=${chapterId}`;
-    const response = await axios.put<any>(url,
-        {
-            isReturnNewData: true,
-            isDeleted: chapterIsdeleted,
-        }
-    )
-    console.log ("delete", url);
-    return response;
-}
 
 async function read(chapterId: string): Promise<Base<ImageData>> {
     if (!chapterId) {

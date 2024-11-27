@@ -13,8 +13,6 @@ const emptyData: Genre = {
   updatedAt: ''
 };
 
-const itemsPerPage = 10;
-
 const GenreTable: React.FC = () => {
   const [rows, setRows] = useState<Genre[]>([]);
   const [currentPage, setCurrentPage] = useState(1);

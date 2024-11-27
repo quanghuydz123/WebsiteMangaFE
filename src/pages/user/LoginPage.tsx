@@ -4,6 +4,8 @@ import DefaultLayoutUser from "../../layouts/DefaultLayoutUser/DefaultLayoutUser
 
 const LoginPage = () => {
     const handleGoogleLogin = () => {
+        console.log(ENDPOINTS.GOOGLE_AUTH_ENPOINT);
+        
         window.location.href = ENDPOINTS.GOOGLE_AUTH_ENPOINT;
     };
 

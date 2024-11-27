@@ -137,7 +137,7 @@ const CommentSection = React.memo(({ mangaId }: { mangaId: string }) => {
               alt="Avatar"
               className="w-12 h-12 rounded-full"
             />
-            <div>
+            <div className="break-all">
               <p className="text-white font-semibold">{comment.userName}</p>
               {editCommentId === comment._id ? (
                 <div>

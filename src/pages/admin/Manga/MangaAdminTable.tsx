@@ -3,6 +3,7 @@ import MangaApi from "../../../apis/MangaApi";
 import Pagination from "../../../components/Admin/Pagination/Pagination";
 import { DTOManga, SelectedManga } from "../../../constrants/apiResponse";
 import { MangaTableProps } from "../../../constrants/type";
+import { motion } from "framer-motion";
 
 
 
@@ -30,7 +31,10 @@ export const MangaAdminTable: React.FC<MangaTableProps & {
 
         return (
             <React.Fragment>
-                <table className="min-w-full table-fixed">
+            
+                <motion.div className="flex-1 rounded-xl bg-white p-5 dark:bg-slate-600 dark:text-slate-300">
+        <div className="overflow-hidden">
+          <table className="min-w-full table-fixed">
                     <thead>
                         <tr className="text-sm md:text-base">
                             {/* <th className="px-4 py-2 text-left font-semibold text-slate-400 w-1/12">ID</th> */}
@@ -69,7 +73,7 @@ export const MangaAdminTable: React.FC<MangaTableProps & {
                                     ))}
                                 </td>
                                 <td className="px-4 py-3 font-medium">
-                                    {manga.genreName}
+                                     {manga.genreName.join(" ")}
                                 </td>
                                 <td className="px-4 py-3">
                                     <button
@@ -115,6 +119,8 @@ export const MangaAdminTable: React.FC<MangaTableProps & {
                     </tbody>
                 </table>
                 <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
+                </div>
+      </motion.div>
             </React.Fragment>
         );
     };
